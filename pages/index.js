@@ -2,6 +2,7 @@ import { CircularProgress, Alert, Box } from "@mui/material";
 import Layout from "../components/Layout";
 import client from "../utils/client";
 import { useState, useEffect } from "react";
+import Carousel from "../components/Carousel";
 // import Favoritos from "../components/Favoritos";
 // import ProductosIndex from "../components/ProductosIndex";
 
@@ -47,9 +48,7 @@ export default function Home() {
       ) : error ? (
         <Alert variant="danger">{error}</Alert>
       ) : (
-        <div>
-          <hi>Hola mundo </hi>
-        </div>
+        <Carousel />
       )}
     </Layout>
   );

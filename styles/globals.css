@@ -2,9 +2,7 @@
   font-family: cooper;
   src: url(./fonts/CooperFiveOpti-Black.otf);
 }
-body .MuiTypography-root.MuiTypography-h1 {
-  font-family: cooper !important;
-}
+
 .mercadopago-button {
   width: 100%;
   background: black !important;
@@ -16,7 +14,10 @@ body .MuiTypography-root.MuiTypography-h1 {
 .bottomH1 {
   font-family: cooper !important;
 }
-
+.MuiSelect-select.MuiSelect-outlined.MuiSelect-multiple.MuiOutlinedInput-input.MuiInputBase-input {
+  padding: 0px;
+  padding-right: 32px;
+}
 .nopadLeft {
   padding-left: 0 !important;
 }
@@ -38,12 +39,20 @@ body .MuiTypography-root.MuiTypography-h1 .title {
 .MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.MuiSelect-icon.MuiSelect-iconOutlined {
   color: #000000;
 }
-
-.MuiOutlinedInput-root.MuiInputBase-root.MuiInputBase-colorPrimary.borrarFieldet
-  fieldset {
+.dropdown-menu.show {
+  opacity: 0.8;
+  width: 320px;
+  background-color: rgba(214, 206, 200) !important;
+  border-radius: 0%;
+}
+.MuiOutlinedInput-root.MuiInputBase-root.MuiInputBase-colorPrimary fieldset {
   display: none;
 }
-.MuiFormControl-root.MuiTextField-root.date fieldset legend {
+.MuiOutlinedInput-root.MuiInputBase-root.MuiInputBase-colorPrimary
+  .fieldSetOFF
+  .MuiFormControl-root.MuiTextField-root.date
+  fieldset
+  legend {
   display: none;
 }
 .dropdown-toggle.btn {
@@ -128,7 +137,20 @@ body .MuiTypography-root.MuiTypography-h1 .title {
   border-radius: 50%;
   margin-left: 1.5em;
 }
-
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation4.MuiAppBar-root.MuiAppBar-colorPrimary.MuiAppBar-positionStatic {
+  background: transparent;
+  position: absolute;
+  z-index: 1;
+  border: none;
+  box-shadow: none;
+}
+.carousel-indicators button {
+  opacity: 1 !important;
+  border-radius: 50% !important;
+  height: 15px !important;
+  width: 15px !important;
+  background-color: black !important;
+}
 .right:after {
   content: "";
   display: inline-block;
@@ -143,7 +165,7 @@ body .MuiTypography-root.MuiTypography-h1 .title {
   transform: rotate(45deg);
 }
 .imagec {
-  min-width: 670px;
+  min-width: 100%;
   height: 670px;
 }
 @media screen and (max-width: 600px) {

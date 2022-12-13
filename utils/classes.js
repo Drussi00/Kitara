@@ -26,6 +26,7 @@ const classes = {
   },
   toolbar: {
     justifyContent: "space-between",
+    width: "100%",
   },
   brand: {
     fontWeight: "bold",
