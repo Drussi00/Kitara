@@ -144,6 +144,12 @@ body .MuiTypography-root.MuiTypography-h1 .title {
   border: none;
   box-shadow: none;
 }
+.pg3 {
+  position: "absolute";
+  top: "11% !important";
+  left: "20% !important";
+  border: "3px solid white !important";
+}
 .carousel-indicators button {
   opacity: 1 !important;
   border-radius: 50% !important;

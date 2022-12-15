@@ -3,6 +3,7 @@ import Layout from "../components/Layout";
 import client from "../utils/client";
 import { useState, useEffect } from "react";
 import Carousel from "../components/Carousel";
+import Pagina3 from "../components/Pagina3";
 // import Favoritos from "../components/Favoritos";
 // import ProductosIndex from "../components/ProductosIndex";
 
@@ -48,7 +49,10 @@ export default function Home() {
       ) : error ? (
         <Alert variant="danger">{error}</Alert>
       ) : (
-        <Carousel />
+        <Box>
+          <Carousel />
+          <Pagina3 />
+        </Box>
       )}
     </Layout>
   );

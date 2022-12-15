@@ -53,6 +53,94 @@ function carousel() {
         </div>
         <Carousel.Caption></Carousel.Caption>
       </Carousel.Item>
+      <Carousel.Item interval={2000}>
+        <div
+          style={{
+            position: "relative",
+          }}
+        >
+          <img
+            position="absolute"
+            className="d-block  imagec"
+            src={carouselF.src}
+            alt="First slide"
+          />
+          <img
+            height="120px"
+            width="120px"
+            style={{
+              right: "4%",
+              bottom: "6%",
+              zIndex: "100%",
+              position: "absolute",
+            }}
+            className=""
+            src={circular.src}
+            alt="Logo Circular"
+          />
+
+          <Button
+            sx={{
+              left: "10%",
+              bottom: "10%",
+              zIndex: "100%",
+              position: "absolute",
+              backgroundColor: "transparent",
+              border: "2px solid black ",
+              borderRadius: "0",
+              p: "15px 40px",
+              color: "black",
+            }}
+          >
+            SHOP COLLECTION
+          </Button>
+        </div>
+        <Carousel.Caption></Carousel.Caption>
+      </Carousel.Item>
+      <Carousel.Item interval={2000}>
+        <div
+          style={{
+            position: "relative",
+          }}
+        >
+          <img
+            position="absolute"
+            className="d-block  imagec"
+            src={carouselF.src}
+            alt="First slide"
+          />
+          <img
+            height="120px"
+            width="120px"
+            style={{
+              right: "4%",
+              bottom: "6%",
+              zIndex: "100%",
+              position: "absolute",
+            }}
+            className=""
+            src={circular.src}
+            alt="Logo Circular"
+          />
+
+          <Button
+            sx={{
+              left: "10%",
+              bottom: "10%",
+              zIndex: "100%",
+              position: "absolute",
+              backgroundColor: "transparent",
+              border: "2px solid black ",
+              borderRadius: "0",
+              p: "15px 40px",
+              color: "black",
+            }}
+          >
+            SHOP COLLECTION
+          </Button>
+        </div>
+        <Carousel.Caption></Carousel.Caption>
+      </Carousel.Item>
     </Carousel>
   );
 }
