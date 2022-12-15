@@ -1,0 +1,75 @@
+.slick-prev:before {
+    content: '<' !important;
+    font-size: 40px !important;
+    position: absolute !important;
+    line-height: 0 !important;
+    left: -16px !important;
+    font-family: monospace !important;
+    color: black !important;
+}
+.slick-next:before {
+    content: '>' !important;
+    font-size: 40px !important;
+    line-height: 0 !important;
+    font-family: monospace !important;
+    color: black !important;
+}
+.card-kitara{
+    min-width: 248px;
+    margin: auto;
+    &.noMargin{
+        margin: 0;
+        @media screen and (max-width:600px){
+            margin: auto;
+        }
+    }
+    .img-2{
+        display: none;
+    }
+
+    
+
+
+    &:hover{
+        cursor: pointer;
+        .card-kitara-container-img{
+            position: relative;
+            .img-1{
+                display: none;
+            }
+            .img-2{
+                display: block;
+                
+            }
+
+            &::before{
+                content: "Quick View";
+                text-align: center;
+                background-color: black;
+                color: white;
+                position: absolute;
+                height: 40px;
+                width: 100%;
+                font-size: 27px;
+                bottom: 0px;
+                z-index: 2;
+            }
+        }
+
+    }
+    .card-kitara-img{
+        width: 100%;
+        position: relative;
+
+    }
+    .card-kitara-title{
+        text-align: center;
+        margin: 5px 0;
+
+    }
+    .card-kitara-parrafo{
+        text-align: center;
+        color: gray;
+    }
+    
+}

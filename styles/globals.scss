@@ -1,3 +1,4 @@
+@import "./cardsKitara.scss";
 @font-face {
   font-family: cooper;
   src: url(./fonts/CooperFiveOpti-Black.otf);
@@ -143,6 +144,7 @@ body .MuiTypography-root.MuiTypography-h1 .title {
   z-index: 1;
   border: none;
   box-shadow: none;
+  top: 0;
 }
 .carousel-indicators button {
   opacity: 1 !important;
