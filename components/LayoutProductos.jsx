@@ -3,7 +3,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PersonIcon from "@mui/icons-material/Person";
 import Dropdown from "react-bootstrap/Dropdown";
+import CardGiftcardSharpIcon from "@mui/icons-material/CardGiftcardSharp";
+import { SlBag } from "react-icons/sl";
 import CloseIcon from "@mui/icons-material/Close";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import IconButton from "@mui/material/IconButton";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import logo from "../utils/Images/logo.png";
@@ -16,15 +20,16 @@ import {
   CssBaseline,
   Divider,
   Drawer,
-  IconButton,
   InputBase,
   Link,
   List,
   ListItem,
+  ListItemButton,
   ListItemText,
   Menu,
   MenuItem,
   Select,
+  TextField,
   ThemeProvider,
   Toolbar,
   Typography,
@@ -47,8 +52,70 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import Image from "next/image";
 
-////////////////////////////////////////////////////////////////
-export default function Layout({ title, description, children }) {
+export default function LayoutProductos({ title, description, children }) {
+  const [drawer, setDrawer] = useState(false);
+  const list = () => (
+    <Box
+      sx={{ width: 250 }}
+      role="presentation"
+      onClick={() => setDrawer(false)}
+      onKeyDown={() => setDrawer(false)}
+    >
+      <IconButton
+        size="large"
+        edge="start"
+        aria-label="menu"
+        sx={{ ml: 1 }}
+        onClick={() => setDrawer(true)}
+      >
+        <MenuIcon />
+      </IconButton>
+      <List>
+        {[
+          { name: "ALL WOMAN", url: "" },
+          { name: "NEW ARRIVALS", url: "" },
+          { name: "CHAQUETA METROPOLITANA ICONIC", url: "" },
+          { name: "CHAQUETA CASUAL", url: "" },
+          { name: "CHAQUETA DISTRICT", url: "" },
+          { name: "HOODIES", url: "" },
+          { name: "T-SHIRTS", url: "" },
+          { name: "COCTEL", url: "" },
+        ].map((text, index) => (
+          <ListItem key={text.name} disablePadding>
+            <ListItemButton>
+              <ListItemText primary={text.name} className="fontWeight-400" />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+      <List sx={{ marginTop: "15px" }}>
+        {[
+          { name: "THE LAB", url: "" },
+          { name: "THE BRAND", url: "" },
+          { name: "2ND CHANCE", url: "" },
+        ].map((text, index) => (
+          <ListItem key={text.name} disablePadding>
+            <ListItemButton>
+              <ListItemText primary={text.name} className="fontWeight-400" />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+      <List sx={{ marginTop: "15px" }}>
+        {[
+          { name: "+INFO", url: "" },
+          { name: "CONTACTANOS", url: "" },
+        ].map((text, index) => (
+          <ListItem key={text.name} disablePadding>
+            <ListItemButton>
+              <ListItemText primary={text.name} className="fontWeight-400" />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
+
   const [moneda, setmoneda] = useState("default");
   const router = useRouter();
   const { state, dispatch } = useContext(Store);
@@ -176,15 +243,6 @@ export default function Layout({ title, description, children }) {
     } = event;
   };
 
-  const names = [
-    "ALL WOMAN",
-    "CHAQUETA METROPOLITANA ICONIC",
-    "CHAQUETA CASUAL",
-    "CHAQUETA DISTRICT",
-    "HOODIES",
-    "T-SHIRTS",
-  ];
-  const coctel = ["CAMISAS", "VESTIDOS"];
   return (
     <>
       <Head>
@@ -194,110 +252,26 @@ export default function Layout({ title, description, children }) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Box>
+          <SwipeableDrawer
+            anchor={"left"}
+            open={drawer}
+            onClose={() => setDrawer(false)}
+            onOpen={() => setDrawer(true)}
+          >
+            {list()}
+          </SwipeableDrawer>
           <AppBar position="static" sx={classes.appbar}>
             <Toolbar sx={classes.toolbar}>
-              <Box display="flex" gap="1rem">
-                <NextLink className="link" href={"/"} passHref>
-                  <Link>
-                    <Typography
-                      align="center"
-                      color="black"
-                      variant="h1"
-                      component="h1"
-                    >
-                      HOME
-                    </Typography>
-                  </Link>
-                </NextLink>
-                <Dropdown>
-                  <Dropdown.Toggle
-                    style={{
-                      fontWeight: "bold",
-                      fontSize: "1.5rem",
-                      color: "black",
-                      "&:hover": { color: "black" },
-                    }}
-                    variant=""
-                    id="dropdown-basic"
-                    className=""
-                  >
-                    Shop
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu
-                    style={{ backgroundColor: "white", border: "none" }}
-                  >
-                    {names.map((category) => (
-                      <NextLink
-                        key={category}
-                        href={`/search?category=${category}`}
-                        passHref
-                        sx={{}}
-                      >
-                        <ListItem
-                          component="a"
-                          onClick={sidebarCloseHandler}
-                          sx={{
-                            fontWeight: "normal",
-                            "&:hover": { color: "black" },
-                          }}
-                        >
-                          <ListItemText primary={category}></ListItemText>
-                        </ListItem>
-                      </NextLink>
-                    ))}
-                    <Dropdown className="coleciones2">
-                      <Dropdown.Toggle
-                        variant=""
-                        id="dropdown-basic"
-                        className=""
-                      >
-                        COCTEL
-                      </Dropdown.Toggle>
-
-                      <Dropdown.Menu
-                        style={{ backgroundColor: "white", border: "none" }}
-                      >
-                        {coctel.map((colecion) => (
-                          <NextLink
-                            key={colecion}
-                            href={`/search?colecion=${colecion}&category=Shop+All`}
-                            passHref
-                          >
-                            <ListItem
-                              sx={{
-                                fontWeight: "normal",
-                                "&:hover": { color: "black" },
-                              }}
-                              component="a"
-                              onClick={sidebarCloseHandler}
-                            >
-                              <ListItemText primary={colecion}></ListItemText>
-                            </ListItem>
-                          </NextLink>
-                        ))}
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </Dropdown.Menu>
-                </Dropdown>
-
-                <NextLink className="link" href={"/lab"} passHref>
-                  <Link>
-                    <Typography color="black" variant="h1" component="h1">
-                      THE LAB
-                    </Typography>
-                  </Link>
-                </NextLink>
-                <NextLink className="link" href={"/brand"} passHref>
-                  <Link>
-                    <Typography color="black" variant="h1" component="h1">
-                      THE BRAND
-                    </Typography>
-                  </Link>
-                </NextLink>
-              </Box>
-              <Box>
-                {" "}
+              <Box display="flex">
+                <IconButton
+                  size="large"
+                  edge="start"
+                  aria-label="menu"
+                  sx={{ mr: 2 }}
+                  onClick={() => setDrawer(true)}
+                >
+                  <MenuIcon />
+                </IconButton>
                 <NextLink href="/" passHref>
                   <Image
                     src={logo.src}
@@ -309,28 +283,24 @@ export default function Layout({ title, description, children }) {
                   />
                 </NextLink>
               </Box>
+
               <Box display="flex" gap="1rem">
-                <NextLink className="link" href={"/brand"} passHref>
-                  <Link>
-                    <Typography color="black" variant="h1" component="h1">
-                      2ND CHANCE
-                    </Typography>
-                  </Link>
-                </NextLink>
-                <NextLink className="link" href={"/brand"} passHref>
-                  <Link>
-                    <Typography color="black" variant="h1" component="h1">
-                      GUIA DE TALLAS
-                    </Typography>
-                  </Link>
-                </NextLink>
+                <TextField
+                  id="standard-search"
+                  label="BUSCAR"
+                  variant="standard"
+                  style={{ paddingBottom: "23px" }}
+                />
                 <NextLink className="link" href={"/login"} passHref>
-                  <Link>
-                    <Typography color="black" variant="h1" component="h1">
-                      LOGIN
-                    </Typography>
-                  </Link>
+                  <Link style={{ alignSelf: "center" }}>LOG IN</Link>
                 </NextLink>
+                <IconButton edge="start">
+                  <SlBag
+                    fontSize="24px"
+                    color="black"
+                    style={{ marginBottom: "3px" }}
+                  />
+                </IconButton>
               </Box>
             </Toolbar>
           </AppBar>
@@ -371,13 +341,24 @@ export default function Layout({ title, description, children }) {
                   About
                 </Typography>
               </Box>
-              <Box display="flex" flexDirection="column" width="40%" textAlign="center" paddingX={5}>
-              <form style={{marginBottom:"10px"}}>
-                <input type="email" className="input-registration" placeholder="Direccion de correo Electronico" style={{fontSize:"14px"}}/>
-                <button className="btn btn-dark button-boostrap-modified-borders">
-                  SUSCRIBIRSE
-                </button>
-              </form>
+              <Box
+                display="flex"
+                flexDirection="column"
+                width="40%"
+                textAlign="center"
+                paddingX={5}
+              >
+                <form style={{ marginBottom: "10px" }}>
+                  <input
+                    type="email"
+                    className="input-registration"
+                    placeholder="Direccion de correo Electronico"
+                    style={{ fontSize: "14px" }}
+                  />
+                  <button className="btn btn-dark button-boostrap-modified-borders">
+                    SUSCRIBIRSE
+                  </button>
+                </form>
                 <Typography component="p" width="80%" margin="auto">
                   Promociones, nuevos productos y ofertas. Directamente a tu
                   bandeja de entrada

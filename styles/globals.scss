@@ -1,3 +1,4 @@
+@import "./cardsKitara.scss";
 @font-face {
   font-family: cooper;
   src: url(./fonts/CooperFiveOpti-Black.otf);
@@ -76,6 +77,11 @@ body .MuiTypography-root.MuiTypography-h1 .title {
 .MuiTypography-root.MuiTypography-body1.MuiListItemText-primary:hover {
   color: black;
 }
+.fontWeight-400{
+  .MuiTypography-root.MuiTypography-body1.MuiListItemText-primary{
+    font-weight: 500;
+  }
+}
 
 .MuiTypography-inherit.MuiLink-root.MuiLink-underlineHover {
   text-decoration: none;
@@ -143,6 +149,21 @@ body .MuiTypography-root.MuiTypography-h1 .title {
   z-index: 1;
   border: none;
   box-shadow: none;
+  top: 0;
+}
+.MuiBackdrop-root{
+  background: transparent !important;
+}
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation16.MuiDrawer-paper.MuiDrawer-paperAnchorLeft{
+ background-color: rgb(241, 236, 236); 
+}
+.MuiInputLabel-root.MuiInputLabel-formControl.MuiInputLabel-animated.MuiInputLabel-standard.MuiFormLabel-root.MuiFormLabel-colorPrimary{
+  font-size: 23px;
+} 
+
+.input-registration{
+  padding: 5px 10px;
+  width: 221px;
 }
 .pg3 {
   position: "absolute";
