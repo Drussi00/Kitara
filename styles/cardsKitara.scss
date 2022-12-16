@@ -14,6 +14,22 @@
     font-family: monospace !important;
     color: black !important;
 }
+
+.button-boostrap-modified-borders{
+    border-radius: 0px !important;
+    height:100% !important;
+    padding: 4px 10px !important;
+}
+
+.link-Style-none{
+    text-decoration: none;
+    color: gray;
+    &:hover{
+        cursor: pointer;
+        color: gray;
+        opacity: 0.6;
+    }
+}
 .card-kitara{
     min-width: 248px;
     margin: auto;

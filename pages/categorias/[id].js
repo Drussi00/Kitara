@@ -23,6 +23,7 @@ import {
   import axios from "axios";
   import { useRouter } from "next/router";
 import { CardsKitara } from "../../components/cardsKitara";
+import LayoutProductos from "../../components/LayoutProductos";
   
   function reducer(state, action) {
     switch (action.type) {
@@ -83,7 +84,7 @@ import { CardsKitara } from "../../components/cardsKitara";
     // }, []);
   
     return (
-      <Layout title={`categorias - orderId`}>
+      <LayoutProductos title={`categorias - orderId`}>
         <h1 className="text-center" style={{marginTop:"120px"}}>DISTRICT</h1>
         <div style={{maxWidth:"1280px",display:"flex",flexWrap:"wrap",margin:"auto",justifyContent:"space-between",width:"90%"}}>
           {
@@ -91,7 +92,7 @@ import { CardsKitara } from "../../components/cardsKitara";
           }
           
         </div>
-      </Layout>
+      </LayoutProductos>
     );
   }
   export function getServerSideProps({ params }) {
