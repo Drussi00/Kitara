@@ -24,7 +24,7 @@ import { urlFor, urlForThumbnail } from "../../utils/image";
 import { Store } from "../../utils/Store";
 import axios from "axios";
 import { useRouter } from "next/router";
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 export default function ProductScreen(props) {
   const router = useRouter();
   const { slug } = props;
@@ -152,16 +152,9 @@ export default function ProductScreen(props) {
   const [selectedS, setselectedS] = useState(false);
   const [selectedM, setselectedM] = useState(false);
   const [selectedL, setselectedL] = useState(false);
-
+  const [selectedXL, setselectedXL] = useState(false);
   return (
-    <Layout title={product?.title}>
-      <Box display="flex" sx={classes.productosIndex}>
-        <Typography
-          sx={{ fontWeight: "bold", fontFamily: " coolvetica, sans-serif" }}
-        >
-          Envio gratis a todo el pais por compras superiores a $200.000
-        </Typography>
-      </Box>
+    <Box>
       <Container>
         {loading ? (
           <CircularProgress />
@@ -169,22 +162,44 @@ export default function ProductScreen(props) {
           <Alert variant="error">{error}</Alert>
         ) : (
           <Box>
-            <Box
-              display="flex"
-              sx={{
-                alignItems: "center",
-                marginLeft: "25px",
-              }}
-            >
-              <Typography>
-                <NextLink href={"/"} passHref>
-                  <Link sx={{ color: "#f1f1f1" }}>Inicio</Link>
-                </NextLink>
-              </Typography>{" "}
-              / <Typography>{product.name}</Typography>
-            </Box>
             <Grid container spacing={6}>
-              <Grid item md={6} xs={12} sx={{ marginTop: "70px" }}>
+              <Grid item md={4} xs={12} sx={{ marginTop: "70px" }}>
+                <Button
+                  sx={{
+                    mt: 15,
+                    width: "100%",
+                    backgroundColor: "black",
+                    color: "white",
+                    borderRadius: "0",
+                    p: 1,
+                    mb: 5,
+                  }}
+                >
+                  COMO SE ARMA TU KITARA
+                </Button>
+                <Typography
+                  variant="h1"
+                  component="h1"
+                  sx={{
+                    width: "100%",
+                    fontSize: "1rem",
+                    mb: 1,
+                    fontWeight: "bold",
+                  }}
+                >
+                  MATERIALES Y CUIDADOS
+                </Typography>
+                <Typography
+                  variant="text"
+                  component="text"
+                  sx={{ mt: 10, width: "100%", fontSize: ".8rem" }}
+                >
+                  ALGUNA DESCRIPCIÓN DE LA PRENDA , ALGUNA DESCRIPCIÓN DE LA
+                  PRENDA ALGUNA DESCRIPCIÓN DE LA PRENDA ALGUNA DESCRIPCIÓN DE
+                  LA PRENDA
+                </Typography>
+              </Grid>
+              <Grid item md={4} xs={12} sx={{ marginTop: "70px" }}>
                 <Typography
                   variant="h1"
                   component="h1"
@@ -192,47 +207,45 @@ export default function ProductScreen(props) {
                 >
                   {product.name}
                 </Typography>
-                <Box display={"flex"} sx={{ justifyContent: "center" }}>
+                <Box
+                  display={"flex"}
+                  sx={{
+                    justifyContent: "center",
+                    border: "1px solid black",
+                    p: 2,
+                  }}
+                >
                   <Image
                     className="big-image"
                     src={urlFor(product.image && product.image[index])}
                     key={product.image._key}
                     alt={product.name}
-                    width={500}
-                    height={500}
+                    width={450}
+                    height={700}
                   />
                 </Box>
-                <Box>
-                  <div className="small-images-container">
-                    {product.image?.map((item, i) => (
-                      <Image
-                        key={item.key}
-                        width={70}
-                        height={70}
-                        alt={item.name}
-                        src={urlFor(item)}
-                        className={
-                          i === index
-                            ? "small-image selected-image"
-                            : "small-image"
-                        }
-                        onMouseEnter={() => setIndex(i)}
-                      />
-                    ))}
-                  </div>
-                </Box>
+                <Box></Box>
               </Grid>
-              <Grid item md={6} xs={12} sx={{ marginTop: "40px" }}>
+              <Grid item md={4} xs={12}>
                 <List>
-                  <ListItem>
-                    <Typography variant="h1" component="h1" sx={classes.title}>
+                  <ListItem sx={{ marginTop: "50px" }}>
+                    <BookmarkBorderIcon fontSize="large" />
+                  </ListItem>
+                  <ListItem sx={{ marginTop: "150px" }}>
+                    <Typography
+                      variant="h1"
+                      component="h1"
+                      sx={{ fontSize: "1.2rem" }}
+                    >
                       {product.name}
                     </Typography>
                   </ListItem>
                   <ListItem>
-                    <Typography sx={classes.bold}>
+                    <Typography sx={{ fontSize: "1.2rem", opacity: ".9" }}>
                       {" "}
-                      ${new Intl.NumberFormat().format(parseInt(product.price))}
+                      $
+                      {new Intl.NumberFormat().format(parseInt(product.price)) +
+                        " COP"}
                     </Typography>
                   </ListItem>
                   <Divider sx={classes.line} />
@@ -246,28 +259,13 @@ export default function ProductScreen(props) {
                         fontFamily: " coolvetica, sans-serif",
                       }}
                     >
-                      Tallas: {size}
+                      Talla: {size}
                     </Typography>
-                    <NextLink href={"/"} passHref>
-                      <Link
-                        sx={{
-                          color: "#f1f1f1",
-                          marginLeft: "50px",
-                          textDecoration: "underline",
-                          textDecorationThickness: "1.5px",
-                          textDecorationColor: "#000000",
-                          borderBottomStyle: "solid",
-                        }}
-                      >
-                        {" "}
-                        Guia tallas
-                      </Link>
-                    </NextLink>
                   </ListItem>
                   <listItem>
                     <Grid container spacing={2}>
                       <Grid item>
-                        <Button
+                        <button
                           size="small"
                           variant=""
                           onClick={() => {
@@ -277,14 +275,15 @@ export default function ProductScreen(props) {
                             setselectedS(false);
                             setselectedM(false);
                             setselectedL(false);
+                            setselectedXL(false);
                           }}
-                          sx={selectedXs ? classes.but : classes.selected}
+                          style={selectedXs ? classes.selected : classes.but}
                         >
                           XS
-                        </Button>
+                        </button>
                       </Grid>
                       <Grid item>
-                        <Button
+                        <button
                           size="small"
                           variant=""
                           onClick={() => {
@@ -294,14 +293,15 @@ export default function ProductScreen(props) {
                             setselectedS(true);
                             setselectedM(false);
                             setselectedL(false);
+                            setselectedXL(false);
                           }}
-                          sx={selectedS ? classes.but : classes.selected}
+                          style={selectedS ? classes.selected : classes.but}
                         >
                           S
-                        </Button>
+                        </button>
                       </Grid>
                       <Grid item>
-                        <Button
+                        <button
                           size="small"
                           variant=""
                           onClick={() => {
@@ -311,14 +311,15 @@ export default function ProductScreen(props) {
                             setselectedS(false);
                             setselectedM(true);
                             setselectedL(false);
+                            setselectedXL(false);
                           }}
-                          sx={selectedM ? classes.but : classes.selected}
+                          style={selectedM ? classes.selected : classes.but}
                         >
                           M
-                        </Button>
+                        </button>
                       </Grid>
                       <Grid item>
-                        <Button
+                        <button
                           size="small"
                           variant=""
                           onClick={() => {
@@ -327,38 +328,62 @@ export default function ProductScreen(props) {
                             setselectedS(false);
                             setselectedM(false);
                             setselectedL(true);
+                            setselectedXL(false);
                             setquantity(1);
                           }}
-                          sx={selectedL ? classes.but : classes.selected}
+                          style={selectedL ? classes.selected : classes.but}
                         >
                           L
-                        </Button>
+                        </button>
+                      </Grid>
+                      <Grid item>
+                        <button
+                          size="small"
+                          variant=""
+                          onClick={() => {
+                            setsize("L");
+                            setselecteXs(false);
+                            setselectedS(false);
+                            setselectedM(false);
+                            setselectedL(false);
+                            setselectedXL(true);
+                            setquantity(1);
+                          }}
+                          style={selectedXL ? classes.selected : classes.but}
+                        >
+                          XL
+                        </button>
                       </Grid>
                     </Grid>
                   </listItem>
+                  <Divider
+                    sx={{
+                      mt: 5,
+                      border: "1px solid white",
+                      borderTop: "1px solid black",
+                      height: "2px",
+                      opacity: "1",
+                      width: "97%",
+                    }}
+                  />
                   <ListItem>
-                    <Typography
-                      sx={{
-                        fontWeight: "bold",
-                        fontFamily: " coolvetica, sans-serif",
-                      }}
-                    >
-                      Cantidad:
-                    </Typography>
+                    {" "}
+                    <NextLink href={"/"} passHref>
+                      <Link
+                        sx={{
+                          color: "black",
+
+                          textDecoration: "none",
+                          "&:hover": {
+                            color: "black",
+                            textDecoration: "underline",
+                          },
+                        }}
+                      >
+                        GUIA DE TALLAS
+                      </Link>
+                    </NextLink>
                   </ListItem>
-                  <ButtonGroup
-                    sx={classes.buttonGroup}
-                    variant="outlined"
-                    aria-label="outlined button group"
-                  >
-                    <Button onClick={decQuantity} sx={classes.buttonGroup}>
-                      -
-                    </Button>
-                    <Button sx={classes.buttonQ}>{quantity}</Button>
-                    <Button sx={classes.buttonGroup} onClick={addQuantity}>
-                      +
-                    </Button>
-                  </ButtonGroup>
                   <ListItem>
                     <Button
                       sx={classes.blackline}
@@ -379,92 +404,13 @@ export default function ProductScreen(props) {
                       Comprar ahora
                     </Button>
                   </ListItem>
-
-                  <Grid container spacing={0}>
-                    <Grid item md={12} sx={{ justifyContent: "center" }}>
-                      <Grid container spacing={1} sx={{ marginTop: "20px" }}>
-                        <Grid item md={6} sx={{ justifyContent: "center" }}>
-                          <Typography fontSize=".8rem">
-                            {product.description}
-                          </Typography>
-                        </Grid>
-                        <Grid item md={6}>
-                          <Typography fontSize=".8rem" sx>
-                            {product.materiales}
-                          </Typography>
-                        </Grid>
-                        <Grid item md={6}>
-                          <Typography fontSize=".8rem">
-                            {product.cantidadmateriales}
-                          </Typography>
-                        </Grid>
-                        <Grid item md={6}>
-                          <Typography fontSize=".8rem">
-                            <FiberManualRecordIcon /> {product.envio}
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-
-                  <Box
-                    display="flex"
-                    sx={{ marginTop: "90px", justifyContent: "space-between" }}
-                  >
-                    <NextLink href={"/"} passHref>
-                      <Link
-                        sx={{
-                          color: "#f1f1f1",
-
-                          textDecoration: "underline",
-                          textDecorationThickness: "1.5px",
-                          textDecorationColor: "#000000",
-                          borderBottomStyle: "solid",
-                          paddingLeft: "0",
-                        }}
-                      >
-                        {" "}
-                        Cuidado
-                      </Link>
-                    </NextLink>
-                    <NextLink href={"/"} passHref>
-                      <Link
-                        sx={{
-                          color: "#f1f1f1",
-
-                          textDecoration: "underline",
-                          textDecorationThickness: "1.5px",
-                          textDecorationColor: "#000000",
-                          borderBottomStyle: "solid",
-                        }}
-                      >
-                        {" "}
-                        Envios
-                      </Link>
-                    </NextLink>{" "}
-                    <NextLink href={"/"} passHref>
-                      <Link
-                        sx={{
-                          color: "#f1f1f1",
-
-                          textDecoration: "underline",
-                          textDecorationThickness: "1.5px",
-                          textDecorationColor: "#000000",
-                          borderBottomStyle: "solid",
-                        }}
-                      >
-                        {" "}
-                        Devoluciones
-                      </Link>
-                    </NextLink>
-                  </Box>
                 </List>
               </Grid>
             </Grid>
           </Box>
         )}
       </Container>
-    </Layout>
+    </Box>
   );
 }
 

@@ -100,13 +100,13 @@ const classes = {
     width: "97%",
   },
   but: {
-    fontWeight: "bold",
-    fontFamily: " coolvetica, sans-serif",
-    transform: "scale(1.1, 1.1)",
+    backgroundColor: "white",
+    padding: "6px 12px",
+    border: "2px solid black",
+    fontFamily: " helvetica, sans-serif",
     fontSize: "12px",
-    border: "1.5px solid black ",
+    borderRadius: "0 ",
     borderWidth: ".1",
-    borderRadius: "0",
 
     "&:hover": {
       transform: "scale(1.1, 1.1)",
@@ -183,11 +183,15 @@ const classes = {
 
     "&:hover": {
       transform: "scale(1.1, 1.1)",
+      backgroundColor: "black",
+      color: "white",
     },
   },
   selected: {
-    border: "1.5px solid #CFCFCF",
-    fontWeight: "bold",
+    backgroundColor: "Black",
+    color: "white",
+    padding: "6px 12px",
+    border: "2px solid black",
     fontFamily: " helvetica, sans-serif",
     fontSize: "12px",
     borderRadius: "0 ",
