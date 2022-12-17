@@ -292,13 +292,13 @@ export default function LayoutProductos({ title, description, children }) {
                   style={{ paddingBottom: "23px" }}
                 />
                 <NextLink className="link" href={"/login"} passHref>
-                  <Link style={{ alignSelf: "center" }}>LOG IN</Link>
+                  <Link style={{ alignSelf: "center",fontSize:"24px",marginLeft:"20px" }}>LOG IN</Link>
                 </NextLink>
                 <IconButton edge="start">
                   <SlBag
-                    fontSize="24px"
+                    fontSize="36px"
                     color="black"
-                    style={{ marginBottom: "3px" }}
+                    style={{ marginBottom: "5px",marginLeft:"20px" }}
                   />
                 </IconButton>
               </Box>

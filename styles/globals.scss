@@ -1,4 +1,5 @@
 @import "./cardsKitara.scss";
+@import "./cardsCarrito.scss";
 @font-face {
   font-family: cooper;
   src: url(./fonts/CooperFiveOpti-Black.otf);
@@ -159,6 +160,7 @@ body .MuiTypography-root.MuiTypography-h1 .title {
 }
 .MuiInputLabel-root.MuiInputLabel-formControl.MuiInputLabel-animated.MuiInputLabel-standard.MuiFormLabel-root.MuiFormLabel-colorPrimary{
   font-size: 23px;
+  letter-spacing: -1px;
 } 
 
 .input-registration{
