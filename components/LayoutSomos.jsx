@@ -10,7 +10,7 @@ import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import IconButton from "@mui/material/IconButton";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import logo from "../utils/Images/logo.png";
+import logo from "../utils/Images/icon-match.png";
 import {
   AppBar,
   Badge,
@@ -262,27 +262,21 @@ export default function LayoutSomos({ title, description, children }) {
           </SwipeableDrawer>
           <AppBar position="static" sx={classes.appbar}>
             <Toolbar sx={classes.toolbar}>
-
-                <IconButton
-                  size="large"
-                  edge="start"
-                  aria-label="menu"
-                  sx={{ mr: 2 }}
-                  onClick={() => setDrawer(true)}
-                  className="logo-navbar"
-                >
-                  <MenuIcon />
-                </IconButton>
+              <IconButton
+                size="large"
+                edge="start"
+                aria-label="menu"
+                sx={{ mr: 2 }}
+                onClick={() => setDrawer(true)}
+                className="logo-navbar"
+              >
+                <MenuIcon />
+              </IconButton>
+              <Box sx={{position:"relative",top:"40px"}}>
                 <NextLink href="/" passHref>
-                  <Image
-                    src={logo.src}
-                    width="250px"
-                    height="60px"
-                    sx={{
-                      display: "flex",
-                    }}
-                  />
+                  <Image src={logo.src} width="250px" height="80px" />
                 </NextLink>
+              </Box>
 
               <Box display="flex" gap="1rem">
                 <TextField
@@ -292,13 +286,21 @@ export default function LayoutSomos({ title, description, children }) {
                   style={{ paddingBottom: "23px" }}
                 />
                 <NextLink className="link" href={"/login"} passHref>
-                  <Link style={{ alignSelf: "center",fontSize:"24px",marginLeft:"20px" }}>LOG IN</Link>
+                  <Link
+                    style={{
+                      alignSelf: "center",
+                      fontSize: "24px",
+                      marginLeft: "20px",
+                    }}
+                  >
+                    LOG IN
+                  </Link>
                 </NextLink>
                 <IconButton edge="start">
                   <SlBag
                     fontSize="36px"
                     color="black"
-                    style={{ marginBottom: "5px",marginLeft:"20px" }}
+                    style={{ marginBottom: "5px", marginLeft: "20px" }}
                   />
                 </IconButton>
               </Box>
