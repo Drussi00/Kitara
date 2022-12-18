@@ -51,7 +51,6 @@ import { getError } from "../utils/error";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import Image from "next/image";
-import { Footer } from "./Footer";
 
 export default function LayoutProductos({ title, description, children }) {
   const [drawer, setDrawer] = useState(false);
@@ -261,7 +260,7 @@ export default function LayoutProductos({ title, description, children }) {
           >
             {list()}
           </SwipeableDrawer>
-          <AppBar position="static" sx={classes.appbar} id="header">
+          <AppBar position="static" sx={classes.appbar}>
             <Toolbar sx={classes.toolbar}>
               <Box display="flex">
                 <IconButton
@@ -293,13 +292,13 @@ export default function LayoutProductos({ title, description, children }) {
                   style={{ paddingBottom: "23px" }}
                 />
                 <NextLink className="link" href={"/login"} passHref>
-                  <Link style={{ alignSelf: "center",fontSize:"24px",marginLeft:"20px" }}>LOG IN</Link>
+                  <Link style={{ alignSelf: "center" }}>LOG IN</Link>
                 </NextLink>
                 <IconButton edge="start">
                   <SlBag
-                    fontSize="36px"
+                    fontSize="24px"
                     color="black"
-                    style={{ marginBottom: "5px" }}
+                    style={{ marginBottom: "3px" }}
                   />
                 </IconButton>
               </Box>
@@ -315,7 +314,94 @@ export default function LayoutProductos({ title, description, children }) {
             {children}
           </Container>
 
-          <Footer />
+          <Box component="footer" margin="30px 0" padding="0 30px">
+            <Typography
+              sx={{ textAlign: "center", margin: "auto" }}
+              component="h3"
+              fontSize={20}
+              width="300px"
+            >
+              SUSCRIBETE A NUESTRO BOLETIN DE NOTICIAS
+            </Typography>
+            <Box display="flex" flexDirection="row" marginTop="30px">
+              <Box display="flex" flexDirection="column" width="30%">
+                <Typography component="h4">@KITARASTUDIO_</Typography>
+                <Typography
+                  component="a"
+                  marginTop={2}
+                  className="link-Style-none"
+                >
+                  Contacto
+                </Typography>
+                <Typography
+                  component="a"
+                  marginTop={2}
+                  className="link-Style-none"
+                >
+                  About
+                </Typography>
+              </Box>
+              <Box
+                display="flex"
+                flexDirection="column"
+                width="40%"
+                textAlign="center"
+                paddingX={5}
+              >
+                <form style={{ marginBottom: "10px" }}>
+                  <input
+                    type="email"
+                    className="input-registration"
+                    placeholder="Direccion de correo Electronico"
+                    style={{ fontSize: "14px" }}
+                  />
+                  <button className="btn btn-dark button-boostrap-modified-borders">
+                    SUSCRIBIRSE
+                  </button>
+                </form>
+                <Typography component="p" width="80%" margin="auto">
+                  Promociones, nuevos productos y ofertas. Directamente a tu
+                  bandeja de entrada
+                </Typography>
+              </Box>
+              <Box display="flex" flexDirection="row" width="30%">
+                <Box display="flex" flexDirection="column" width="50%">
+                  <Typography component="h4">SERVICIOS</Typography>
+                  <Typography
+                    component="a"
+                    marginTop={2}
+                    className="link-Style-none"
+                  >
+                    Detalles del producto
+                  </Typography>
+                  <Typography
+                    component="a"
+                    marginTop={2}
+                    className="link-Style-none"
+                  >
+                    Size Guide
+                  </Typography>
+                </Box>
+                <Box display="flex" flexDirection="column" width="50%">
+                  <Typography component="h4">POLITICAS</Typography>
+                  <Typography
+                    component="a"
+                    marginTop={2}
+                    className="link-Style-none"
+                  >
+                    Termino y Condiciones
+                  </Typography>
+                  <Typography
+                    component="a"
+                    marginTop={2}
+                    className="link-Style-none"
+                  >
+                    Privacy Politcy
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
         </Box>
       </ThemeProvider>
     </>
