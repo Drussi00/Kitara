@@ -77,8 +77,8 @@ body .MuiTypography-root.MuiTypography-h1 .title {
 .MuiTypography-root.MuiTypography-body1.MuiListItemText-primary:hover {
   color: black;
 }
-.fontWeight-400{
-  .MuiTypography-root.MuiTypography-body1.MuiListItemText-primary{
+.fontWeight-400 {
+  .MuiTypography-root.MuiTypography-body1.MuiListItemText-primary {
     font-weight: 500;
   }
 }
@@ -151,17 +151,17 @@ body .MuiTypography-root.MuiTypography-h1 .title {
   box-shadow: none;
   top: 0;
 }
-.MuiBackdrop-root{
+.MuiBackdrop-root {
   background: transparent !important;
 }
-.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation16.MuiDrawer-paper.MuiDrawer-paperAnchorLeft{
- background-color: rgb(241, 236, 236); 
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-elevation16.MuiDrawer-paper.MuiDrawer-paperAnchorLeft {
+  background-color: rgb(241, 236, 236);
 }
-.MuiInputLabel-root.MuiInputLabel-formControl.MuiInputLabel-animated.MuiInputLabel-standard.MuiFormLabel-root.MuiFormLabel-colorPrimary{
+.MuiInputLabel-root.MuiInputLabel-formControl.MuiInputLabel-animated.MuiInputLabel-standard.MuiFormLabel-root.MuiFormLabel-colorPrimary {
   font-size: 23px;
-} 
+}
 
-.input-registration{
+.input-registration {
   padding: 5px 10px;
   width: 221px;
 }

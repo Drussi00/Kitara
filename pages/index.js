@@ -53,8 +53,7 @@ export default function Home() {
         <Box>
           <Carousel />
           <Pagina3 />
-        <Carousel />
-        <CarrouselKitaraCards />
+          <CarrouselKitaraCards />
         </Box>
       )}
     </Layout>
