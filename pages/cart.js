@@ -21,7 +21,8 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import NextLink from "next/link";
 import { BsChatLeft } from "react-icons/bs";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { AiOutlineArrowUp,AiOutlineArrowDown } from "react-icons/ai";
 import { Store } from "../utils/Store";
 // import axios from "axios";
 // import { useSnackbar } from "notistack";
@@ -66,6 +67,7 @@ function CartScreen() {
   const removeItemHanlder = async (item) => {
     dispatch({ type: "CART_REMOVE_ITEM", payload: item });
   };
+  const [Scroll, setScroll] = useState(false)
   const isDesktop = useMediaQuery("(min-width:600px)");
   return (
     <LayoutProductos title="Shopping Cart">
@@ -94,7 +96,15 @@ function CartScreen() {
           <CardsCarrito />
           <CardsCarrito />
         </div>
-        <div className="d-flex flex-column">
+        <div className="d-flex flex-column" style={{paddingTop:"120px",flex:1}}>
+          <Box className="d-flex flex-column carrito-position">
+            <a className="carrito-arrow bg-white" href="#header" onClick={()=>setScroll(false)}>
+              <AiOutlineArrowUp fontSize={25} color={!Scroll?"grey":"black"} />
+            </a>
+            <a className="carrito-arrow bg-white" href="#footer" onClick={()=>setScroll(true)}>
+              <AiOutlineArrowDown fontSize={25} color={Scroll?"grey":"black"}/>
+            </a>
+          </Box>
           <Box className="d-flex carrito-tarjeta-chat ">
             <button className="carrito-tarjeta-chat-button bg-white">
               <BsChatLeft fontSize={25} style={{ marginRight: "13px" }} />

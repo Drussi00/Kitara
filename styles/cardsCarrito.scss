@@ -16,6 +16,15 @@
         width: 100%;
     }
 }
+.carrito-position{
+    position: sticky;
+    top: 24%;
+    width: 20px;
+    .carrito-arrow{
+        border: none;
+    }
+
+}
 
 .w-50{
     width: 50%;
@@ -29,6 +38,7 @@
     position: sticky;
     top: 90%;
     margin-right: 32px;
+    justify-content: end;
 
     .carrito-tarjeta-pago-parrafo{
         font-weight: bold;

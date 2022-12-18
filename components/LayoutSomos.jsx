@@ -51,6 +51,7 @@ import { getError } from "../utils/error";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import Image from "next/image";
+import { Footer } from "./Footer";
 
 export default function LayoutSomos({ title, description, children }) {
   const [drawer, setDrawer] = useState(false);
@@ -316,94 +317,7 @@ export default function LayoutSomos({ title, description, children }) {
             {children}
           </Container>
 
-          <Box component="footer" margin="30px 0" padding="0 30px">
-            <Typography
-              sx={{ textAlign: "center", margin: "auto" }}
-              component="h3"
-              fontSize={20}
-              width="300px"
-            >
-              SUSCRIBETE A NUESTRO BOLETIN DE NOTICIAS
-            </Typography>
-            <Box display="flex" flexDirection="row" marginTop="30px">
-              <Box display="flex" flexDirection="column" width="30%">
-                <Typography component="h4">@KITARASTUDIO_</Typography>
-                <Typography
-                  component="a"
-                  marginTop={2}
-                  className="link-Style-none"
-                >
-                  Contacto
-                </Typography>
-                <Typography
-                  component="a"
-                  marginTop={2}
-                  className="link-Style-none"
-                >
-                  About
-                </Typography>
-              </Box>
-              <Box
-                display="flex"
-                flexDirection="column"
-                width="40%"
-                textAlign="center"
-                paddingX={5}
-              >
-                <form style={{ marginBottom: "10px" }}>
-                  <input
-                    type="email"
-                    className="input-registration"
-                    placeholder="Direccion de correo Electronico"
-                    style={{ fontSize: "14px" }}
-                  />
-                  <button className="btn btn-dark button-boostrap-modified-borders">
-                    SUSCRIBIRSE
-                  </button>
-                </form>
-                <Typography component="p" width="80%" margin="auto">
-                  Promociones, nuevos productos y ofertas. Directamente a tu
-                  bandeja de entrada
-                </Typography>
-              </Box>
-              <Box display="flex" flexDirection="row" width="30%">
-                <Box display="flex" flexDirection="column" width="50%">
-                  <Typography component="h4">SERVICIOS</Typography>
-                  <Typography
-                    component="a"
-                    marginTop={2}
-                    className="link-Style-none"
-                  >
-                    Detalles del producto
-                  </Typography>
-                  <Typography
-                    component="a"
-                    marginTop={2}
-                    className="link-Style-none"
-                  >
-                    Size Guide
-                  </Typography>
-                </Box>
-                <Box display="flex" flexDirection="column" width="50%">
-                  <Typography component="h4">POLITICAS</Typography>
-                  <Typography
-                    component="a"
-                    marginTop={2}
-                    className="link-Style-none"
-                  >
-                    Termino y Condiciones
-                  </Typography>
-                  <Typography
-                    component="a"
-                    marginTop={2}
-                    className="link-Style-none"
-                  >
-                    Privacy Politcy
-                  </Typography>
-                </Box>
-              </Box>
-            </Box>
-          </Box>
+          <Footer />
         </Box>
       </ThemeProvider>
     </>
