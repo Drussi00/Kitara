@@ -138,10 +138,6 @@ const classes = {
     borderWidth: "1px",
     borderColor: "black",
   },
-  clicked: {
-    background: "black",
-  },
-  notClicked: {},
   productosIndex: {
     height: "30px",
     width: "100%vw",
