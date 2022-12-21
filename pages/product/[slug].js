@@ -8,7 +8,6 @@ import {
   ListItem,
   Typography,
   Divider,
-  ButtonGroup,
   Container,
   useMediaQuery,
   Link,
@@ -17,14 +16,15 @@ import Image from "next/image";
 import NextLink from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { useSnackbar } from "notistack";
-import Layout from "../../components/Layout";
 import classes from "../../utils/classes";
 import client from "../../utils/client";
 import { urlFor, urlForThumbnail } from "../../utils/image";
 import { Store } from "../../utils/Store";
 import axios from "axios";
 import { useRouter } from "next/router";
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import LayoutProductos from "../../components/LayoutProductos";
+import { RxBookmark } from "react-icons/rx";
+import { RxBookmarkFilled } from "react-icons/rx";
 export default function ProductScreen(props) {
   const router = useRouter();
   const { slug } = props;
@@ -35,6 +35,7 @@ export default function ProductScreen(props) {
     loading: true,
     error: "",
   });
+  const [clicked, setclicked] = useState(true);
   const { product, loading, error } = state;
   useEffect(() => {
     const fetchData = async () => {
@@ -154,8 +155,8 @@ export default function ProductScreen(props) {
   const [selectedL, setselectedL] = useState(false);
   const [selectedXL, setselectedXL] = useState(false);
   return (
-    <Box>
-      <Container>
+    <LayoutProductos>
+      <Container sx={{ mt: 4 }}>
         {loading ? (
           <CircularProgress />
         ) : error ? (
@@ -200,13 +201,6 @@ export default function ProductScreen(props) {
                 </Typography>
               </Grid>
               <Grid item md={4} xs={12} sx={{ marginTop: "70px" }}>
-                <Typography
-                  variant="h1"
-                  component="h1"
-                  sx={isDesktop ? classes.hidden : classes.titleMobile}
-                >
-                  {product.name}
-                </Typography>
                 <Box
                   display={"flex"}
                   sx={{
@@ -224,14 +218,27 @@ export default function ProductScreen(props) {
                     height={700}
                   />
                 </Box>
-                <Box></Box>
               </Grid>
               <Grid item md={4} xs={12}>
                 <List>
-                  <ListItem sx={{ marginTop: "50px" }}>
-                    <BookmarkBorderIcon fontSize="large" />
+                  <ListItem className="nopadLeft" sx={{ marginTop: "50px" }}>
+                    {clicked ? (
+                      <RxBookmark
+                        fontSize="2.5rem"
+                        onClick={() => {
+                          setclicked(!clicked);
+                        }}
+                      />
+                    ) : (
+                      <RxBookmarkFilled
+                        fontSize="2.5rem"
+                        onClick={() => {
+                          setclicked(!clicked);
+                        }}
+                      />
+                    )}
                   </ListItem>
-                  <ListItem sx={{ marginTop: "150px" }}>
+                  <ListItem sx={{ marginTop: "100px" }}>
                     <Typography
                       variant="h1"
                       component="h1"
@@ -410,7 +417,7 @@ export default function ProductScreen(props) {
           </Box>
         )}
       </Container>
-    </Box>
+    </LayoutProductos>
   );
 }
 
