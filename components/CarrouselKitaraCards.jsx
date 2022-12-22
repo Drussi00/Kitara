@@ -5,7 +5,7 @@ import Slider from "react-slick";
 import { useState } from "react";
 import { useEffect } from "react";
 
-export const CarrouselKitaraCards = () => { 
+export const CarrouselKitaraCards = ({products}) => { 
   const [Width, setWidth] = useState(window.innerWidth);
   const settings = {
     dots: false,
@@ -39,14 +39,7 @@ export const CarrouselKitaraCards = () => {
     <>
     <div style={{width:Width>630?"90%":"73%",margin:"auto"}}>
       <Slider {...settings} adaptiveHeight={true} centerPadding="90px">
-        <CardsKitara />
-        <CardsKitara />
-        <CardsKitara />
-        <CardsKitara />
-        <CardsKitara />
-        <CardsKitara />
-        <CardsKitara />
-        <CardsKitara />
+        {products.map((product)=><CardsKitara details={product}/>)}
       </Slider>
     </div>
     </>

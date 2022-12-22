@@ -1,6 +1,7 @@
 @import "./cardsKitara.scss";
 @import "./cardsCarrito.scss";
 @import "./footer.scss";
+@import "./utils.scss";
 @font-face {
   font-family: cooper;
   src: url(./fonts/CooperFiveOpti-Black.otf);
@@ -200,7 +201,7 @@ body .MuiTypography-root.MuiTypography-h1 .title {
 }
 .imagec {
   min-width: 100%;
-  height: 670px;
+  max-height: 100vh;
 }
 @media screen and (max-width: 600px) {
   .nuddyBear {

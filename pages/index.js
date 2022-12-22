@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Carousel from "../components/Carousel";
 import { CarrouselKitaraCards } from "../components/CarrouselKitaraCards";
 import Pagina3 from "../components/Pagina3";
+import client from "../utils/client";
 // import Favoritos from "../components/Favoritos";
 // import ProductosIndex from "../components/ProductosIndex";
 
@@ -23,9 +24,8 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const products = await client.fetch(`*[_type == 'product']`);
-        // const images = await client.fetch(`*[_type == 'images']`);
-        // setimages(images);
+        const products = await client.fetch(`*[_type == 'product']`);
+        console.log(products)
         setState({ products, loading: false });
       } catch (error) {
         setState({ loading: false, error: error.message });
@@ -65,7 +65,7 @@ export default function Home() {
           <Typography component="h3" textAlign="center" className="my-5" fontSize={40}>
           FORMAS DE USAR TU KITARA
           </Typography>
-        <CarrouselKitaraCards />
+        <CarrouselKitaraCards products={state.products}/>
         </Box>
       )}
     </Layout>

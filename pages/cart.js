@@ -30,6 +30,7 @@ import { Store } from "../utils/Store";
 import { useRouter } from "next/router";
 import LayoutProductos from "../components/LayoutProductos";
 import { CardsCarrito } from "../components/CardsCarrito";
+import { totalCost } from "../utils/functions/cart";
 
 function CartScreen() {
   const router = useRouter();
@@ -37,36 +38,10 @@ function CartScreen() {
     state: {
       cart: { cartItems },
       currency: { curre },
-    },
-    dispatch,
+    }
   } = useContext(Store);
 
-  // const { enqueueSnackbar } = useSnackbar();
-  // const updateCartHanlder = async (item, quantity, size) => {
-  //   const { data } = await axios.get(`/api/products/${item._id}`);
-
-  //   dispatch({
-  //     type: "CART_ADD_ITEM",
-  //     payload: {
-  //       _key: item._key,
-  //       name: item.name,
-  //       countInStockS: item.s,
-  //       countInStockM: item.m,
-  //       countInStockL: item.l,
-  //       slug: item.slug,
-  //       price: item.price,
-  //       image: item.image && item.image[0],
-  //       quantity,
-  //       size,
-  //     },
-  //   });
-  //   enqueueSnackbar(`${item.name} Updated in the cart`, {
-  //     variant: "success",
-  //   });
-  // };
-  const removeItemHanlder = async (item) => {
-    dispatch({ type: "CART_REMOVE_ITEM", payload: item });
-  };
+  
   const [Scroll, setScroll] = useState(false)
   const isDesktop = useMediaQuery("(min-width:600px)");
   return (
@@ -77,6 +52,7 @@ function CartScreen() {
           marginLeft: "80px",
           display: "flex",
           justifyContent: "space-between",
+          marginBottom: "100px"
         }}
       >
         <div>
@@ -89,12 +65,7 @@ function CartScreen() {
           >
             CESTA (#)
           </h2>
-          <CardsCarrito />
-          <CardsCarrito />
-          <CardsCarrito />
-          <CardsCarrito />
-          <CardsCarrito />
-          <CardsCarrito />
+          {cartItems.map((item) => (<CardsCarrito product={item}/>))}
         </div>
         <div className="d-flex flex-column" style={{paddingTop:"120px",flex:1}}>
           <Box className="d-flex flex-column carrito-position">
@@ -115,12 +86,12 @@ function CartScreen() {
           <Box className="d-flex flex-row carrito-tarjeta-pago">
             <p className="carrito-tarjeta-pago-parrafo">TOTAL</p>
             <div className="d-flex flex-column">
-              <p className="carrito-tarjeta-pago-parrafo">439.700 COP</p>
+              <p className="carrito-tarjeta-pago-parrafo">{new Intl.NumberFormat().format(totalCost())} COP</p>
               <p className="carrito-tarjeta-pago-parrafo gray">
                 * IVA INCLUIDO
               </p>
             </div>
-            <button className="carrito-tarjeta-pago-button">CONTINUAR</button>
+            <button className="carrito-tarjeta-pago-button" onClick={() => {router.push("/shipping")}}>CONTINUAR</button>
           </Box>
         </div>
       </Box>

@@ -84,9 +84,11 @@ function OrderScreen({ params }) {
     fetchOrder();
   }, []);
 
+  console.log(orderItems)
+
   return (
     <Layout title={`Order ${orderId}`}>
-      <Container>
+      <Container sx={{mt:13}}>
         <Typography component="h1" variant="h1">
           Order {orderId}
         </Typography>
