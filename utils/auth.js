@@ -8,6 +8,7 @@ const signToken = (user) => {
 
 const isAuth = async (req, res, next) => {
   const { authorization } = req.headers;
+  console.log(authorization)
   if (authorization) {
     const token = authorization.slice(7, authorization.length); // BEARER XXX
     jwt.verify(token, process.env.JWT_SECRET, (err, decode) => {

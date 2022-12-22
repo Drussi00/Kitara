@@ -150,8 +150,9 @@ function PlaceOrderScreen() {
             },
           }
         );
+        console.log(data);
         dispatch({ type: "CART_CLEAR" });
-        jsCookie.remove("cartItems");
+        jsCookie.set("cartItems",JSON.stringify([]));
         jsCookie.remove("paymentMethod");
         setLoading(false);
 
@@ -165,7 +166,7 @@ function PlaceOrderScreen() {
 
   return (
     <Layout title="Place Order">
-      <Container>
+      <Container sx={{mt:13}}>
         <CheckoutWizard activeStep={3}></CheckoutWizard>
         <Typography component="h1" variant="h1">
           Crear Orden

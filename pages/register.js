@@ -79,7 +79,7 @@ export default function RegisterScreen() {
   const isDesktop = useMediaQuery("(min-width:600px)");
   return (
     <Layout title="Register">
-      <Container>
+      <Container sx={{mt:13}}>
         <Box sx={{ paddingBottom: isDesktop ? "90px" : "50px" }}>
           <Form onSubmit={handleSubmit(submitHandler)}>
             <Typography

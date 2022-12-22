@@ -6,6 +6,7 @@ import axios from "axios";
 const handler = nc();
 handler.use(isAuth);
 handler.post(async (req, res) => {
+  console.log("entro")
   const projectId = config.projectId;
   const dataset = config.dataset;
   const tokenWithWriteAccess = process.env.SANITY_AUTH_TOKEN;
@@ -52,7 +53,7 @@ try {
     items: req.body.orderItems.map((producto) => {
       return {
         title: producto.name,
-        unit_price: producto.price,
+        unit_price: parseInt(producto.price * 1.15),
         quantity: producto.quantity,
         description: producto.size,
       };

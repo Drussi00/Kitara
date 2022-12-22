@@ -30,6 +30,8 @@ export default function ShippingScreen() {
     cart: { shippingAddress },
   } = state;
 
+  console.log(userInfo)
+
   useEffect(() => {
     if (!userInfo) {
       return router.push("/login?redirect=/shipping");
@@ -62,7 +64,7 @@ export default function ShippingScreen() {
   const isDesktop = useMediaQuery("(min-width:600px)");
   return (
     <Layout title="Shipping Address">
-      <Container sx={{ paddingBottom: isDesktop ? "40px" : "-60px" }}>
+      <Container sx={{ paddingBottom: isDesktop ? "40px" : "-60px" ,mt:13}}>
         <CheckoutWizard activeStep={1}></CheckoutWizard>
         <Form onSubmit={handleSubmit(submitHandler)}>
           <Typography component="h1" variant="h1"></Typography>

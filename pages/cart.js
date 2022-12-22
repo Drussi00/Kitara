@@ -91,7 +91,7 @@ function CartScreen() {
                 * IVA INCLUIDO
               </p>
             </div>
-            <button className="carrito-tarjeta-pago-button">CONTINUAR</button>
+            <button className="carrito-tarjeta-pago-button" onClick={() => {router.push("/shipping")}}>CONTINUAR</button>
           </Box>
         </div>
       </Box>

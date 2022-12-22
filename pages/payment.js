@@ -53,7 +53,7 @@ export default function PaymentScreen() {
   const isDesktop = useMediaQuery("(min-width:600px)");
   return (
     <Layout title="Payment Method">
-      <Container sx={{ paddingBottom: isDesktop ? "200px" : "150px" }}>
+      <Container sx={{ paddingBottom: isDesktop ? "200px" : "150px",mt:13 }}>
         <Box>
           <CheckoutWizard activeStep={2}></CheckoutWizard>
           <Form onSubmit={submitHandler}>
