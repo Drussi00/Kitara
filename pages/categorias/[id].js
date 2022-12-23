@@ -17,13 +17,14 @@ import {
   
   import dynamic from "next/dynamic";
   import NextLink from "next/link";
-  import React, { useContext, useReducer } from "react";
+  import React, { useContext, useReducer, useState } from "react";
   import Layout from "../../components/Layout";
   import { useEffect } from "react";
   import axios from "axios";
   import { useRouter } from "next/router";
 import { CardsKitara } from "../../components/cardsKitara";
 import LayoutProductos from "../../components/LayoutProductos";
+import client from "../../utils/client";
   
   function reducer(state, action) {
     switch (action.type) {
@@ -37,8 +38,21 @@ import LayoutProductos from "../../components/LayoutProductos";
   }
   
   function OrderScreen({ params }) {
-    // const { id: orderId } = params;
-  
+     const { id } = params; 
+     const [productos, setProductos] = useState([]);
+    useEffect(() => {
+      const fetchProducts = async () => {
+        try {
+          const products = await client.fetch(`*[ _type == "product" && category match $query]`,
+          {query: id});
+          console.log(products);
+          setProductos(products);
+        } catch (err) {
+          console.log(err.message);
+        }
+      };
+      fetchProducts();
+    }, [id]);
     // const [{ order }, dispatch] = useReducer(reducer, {
     //   loading: true,
     //   order: {},
@@ -85,10 +99,12 @@ import LayoutProductos from "../../components/LayoutProductos";
   
     return (
       <LayoutProductos title={`categorias - orderId`}>
-        <h1 className="text-center" style={{marginTop:"120px"}}>DISTRICT</h1>
+     <h1 className="text-center" style={{marginTop:"120px",textTransform:"uppercase"}}>{id} </h1>
+        {productos.length === 0?<h2 className="text-center" style={{margin:"200px auto"}}>no hay productos para esta categoria</h2>:null}
+
         <div style={{maxWidth:"1280px",display:"flex",flexWrap:"wrap",margin:"auto",justifyContent:"space-between",width:"90%"}}>
           {
-            [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16].map((_,i)=><CardsKitara iters={i+1} key={i} noModificable={false}/>)
+            productos.map((producto,i)=><CardsKitara iters={i+1} key={i} noModificable={false} details={producto}/>)
           }
           
         </div>

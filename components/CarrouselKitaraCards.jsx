@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 export const CarrouselKitaraCards = ({products}) => { 
+  console.log(products)
   const [Width, setWidth] = useState(window.innerWidth);
   const settings = {
     dots: false,

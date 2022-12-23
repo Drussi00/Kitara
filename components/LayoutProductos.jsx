@@ -217,17 +217,24 @@ export default function LayoutProductos({ title, description, children }) {
                   name="search"
                   onChange={queryChangeHandler}
                   value={query}
+                  onKeyPress={(e) =>{
+                    if(e.key === 'Enter'){
+                      router.push(`/search?value=${query}`);
+                      setQuery("")
+                    }
+                  }}
                   style={{ paddingBottom: "23px" }}
                 />
                {!userInfo &&  <NextLink className="link" href={"/login"} passHref>
                   <Link style={{ alignSelf: "center",fontSize:"24px",marginLeft:"20px" }}>LOG IN</Link>
                 </NextLink>
                 }
-                <IconButton edge="start">
+                <IconButton edge="start" onClick={()=>router.push(`/cart`)}>
                   <SlBag
                     fontSize="36px"
                     color="black"
                     style={{ marginBottom: "5px" }}
+                    
                   />
                   <p style={{position:"absolute",top:"22px",fontSize:"19px",color:"black"}}>{cart.cartItems.length}</p>
                 </IconButton>

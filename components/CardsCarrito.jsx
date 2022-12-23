@@ -10,7 +10,8 @@ export const CardsCarrito = ({product}) => {
       dispatch({
         type: "CART_AUMENTAR_ITEM",
         payload: {
-          id: product._key
+          id: product._key,
+          size:product.size
         },
       });
     }

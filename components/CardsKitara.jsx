@@ -9,7 +9,7 @@ export const CardsKitara = ({
 }) => {
   const router = useRouter();
   const handleClick = () => {
-    router.push(`product/${details.slug.current}`);
+    router.push(`/product/${details.slug.current}`);
   };
   return (
     <div
@@ -31,27 +31,27 @@ export const CardsKitara = ({
     >
       <div className="card-kitara-container-img">
         <img
-          src={urlFor(details.image[0])}
-          className="card-kitara-img img-1"
+          src={urlFor(details?.image[0])}
+          className={`card-kitara-img img-1 ${noModificable?null:"search"}`}
           alt="img-product"
         />
         {details.image.lenght > 1 ? (
           <img
-            src={urlFor(details.image[1])}
-            className="card-kitara-img img-2"
+            src={urlFor(details?.image[1])}
+            className={`card-kitara-img img-2 ${noModificable?null:"search"}`}
             alt="img-product"
           />
         ) : (
           <img
-            src={urlFor(details.image[0])}
-            className="card-kitara-img img-2"
+            src={urlFor(details?.image[0])}
+            className={`card-kitara-img img-2 ${noModificable?null:"search"}`}
             alt="img-product"
           />
         )}
       </div>
-      <h3 className="card-kitara-title">{details.name}</h3>
+      <h3 className="card-kitara-title">{details?.name}</h3>
       <p className="card-kitara-parrafo">
-        ${new Intl.NumberFormat().format(details.price)}
+        ${new Intl.NumberFormat().format(details?.price)}
       </p>
     </div>
   );

@@ -45,7 +45,7 @@ function reducer(state, action) {
       const payload = action.payload;
       const addItem = state.cart.cartItems.map(
         (item) => {
-          if(item._key == payload.id && item.quantity > 0){
+          if(item._key == payload.id && item.quantity > 0 && item.quantity < item[payload.size]) {
             item.quantity += 1; 
           }  
           return item;

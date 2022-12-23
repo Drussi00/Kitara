@@ -45,13 +45,14 @@ export default function ProductScreen(props) {
             *[_type == "product" && slug.current == $slug][0]`,
           { slug }
         );
+        console.log(product);
         setState({ ...state, product, loading: false });
       } catch (err) {
         setState({ ...state, error: err.message, loading: false });
       }
     };
     fetchData();
-  }, [slug, state]);
+  }, [slug]);
   const [size, setsize] = useState("");
   const [quantity, setquantity] = useState(0);
 
@@ -103,9 +104,9 @@ export default function ProductScreen(props) {
       payload: {
         _key: product._id,
         name: product.name,
-        countInStockS: product.s,
-        countInStockM: product.m,
-        countInStockL: product.l,
+        S: product.s,
+        M: product.m,
+        L: product.l,
         slug: product.slug.current,
         price: product.price,
         image: urlForThumbnail(product.image && product.image[0]),
@@ -132,9 +133,11 @@ export default function ProductScreen(props) {
       payload: {
         _key: product._id,
         name: product.name,
-        countInStockS: product.s,
-        countInStockM: product.m,
-        countInStockL: product.l,
+        XS:product.xs,
+        XL:product.xl,
+        S: product.s,
+        M: product.m,
+        L: product.l,
         slug: product.slug.current,
         price: product.price,
         image: urlForThumbnail(product.image && product.image[0]),
@@ -271,7 +274,7 @@ export default function ProductScreen(props) {
                   </ListItem>
                   <listItem>
                     <Grid container spacing={2}>
-                      <Grid item>
+                     {state.product.xs > 0 && <Grid item>
                         <button
                           size="small"
                           variant=""
@@ -288,8 +291,8 @@ export default function ProductScreen(props) {
                         >
                           XS
                         </button>
-                      </Grid>
-                      <Grid item>
+                      </Grid>}
+                      {state.product.s > 0 && <Grid item>
                         <button
                           size="small"
                           variant=""
@@ -306,8 +309,8 @@ export default function ProductScreen(props) {
                         >
                           S
                         </button>
-                      </Grid>
-                      <Grid item>
+                      </Grid>}
+                      {state.product.m > 0 &&  <Grid item>
                         <button
                           size="small"
                           variant=""
@@ -324,8 +327,8 @@ export default function ProductScreen(props) {
                         >
                           M
                         </button>
-                      </Grid>
-                      <Grid item>
+                      </Grid>}
+                      {state.product.l > 0 &&  <Grid item>
                         <button
                           size="small"
                           variant=""
@@ -342,8 +345,8 @@ export default function ProductScreen(props) {
                         >
                           L
                         </button>
-                      </Grid>
-                      <Grid item>
+                      </Grid>}
+                      {state.product.xl > 0 && <Grid item>
                         <button
                           size="small"
                           variant=""
@@ -360,7 +363,7 @@ export default function ProductScreen(props) {
                         >
                           XL
                         </button>
-                      </Grid>
+                      </Grid>}
                     </Grid>
                   </listItem>
                   <Divider
