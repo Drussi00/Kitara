@@ -20,6 +20,7 @@ import { Store } from "../utils/Store";
 import { useRouter } from "next/router";
 import jsCookie from "js-cookie";
 import { getError } from "../utils/error";
+import LayoutProductos from "../components/LayoutProductos";
 ////////////////////////////////////////////////////////////////
 
 export default function LoginScreen() {
@@ -54,23 +55,65 @@ export default function LoginScreen() {
   };
   const isDesktop = useMediaQuery("(min-width:600px)");
   return (
-    <Layout title="Login">
-      <Container sx={{mt:13}}>
-        <Box sx={{ paddingBottom: isDesktop ? "220px" : "200px" }}>
+    <LayoutProductos title="Login">
+      <Container
+        sx={{
+          mt: 13,
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Box
+          sx={{
+            alignItems: "center",
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "row",
+            paddingBottom: isDesktop ? "250px" : "200px",
+            width: "50%",
+          }}
+        >
           {" "}
           <Form onSubmit={handleSubmit(submitHandler)}>
-            <Typography
-              sx={{
-                fontWeight: "bold",
-                fontFamily: " coolvetica, sans-serif",
-                fontSize: "2rem",
-              }}
-              component="h1"
-              variant="h1"
-            >
-              Iniciar Sesion
-            </Typography>
             <List>
+              <ListItem
+                sx={{
+                  alignItems: "center",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontWeight: "bold",
+                    fontFamily: " coolvetica, sans-serif",
+                    fontSize: "2rem",
+                  }}
+                  component="h1"
+                  variant="h1"
+                >
+                  LOG IN
+                </Typography>
+              </ListItem>
+              <ListItem
+                sx={{
+                  alignItems: "center",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Typography
+                  align="center"
+                  sx={{
+                    fontFamily: " coolvetica, sans-serif",
+                    fontSize: ".8rem",
+                  }}
+                  component="text"
+                  variant="text"
+                >
+                  Please Enter your e-mail and password
+                </Typography>
+              </ListItem>
               <ListItem>
                 <Controller
                   name="email"
@@ -82,6 +125,7 @@ export default function LoginScreen() {
                   }}
                   render={({ field }) => (
                     <TextField
+                      sx={{ border: "1px solid grey" }}
                       variant="outlined"
                       fullWidth
                       id="email"
@@ -111,10 +155,11 @@ export default function LoginScreen() {
                   }}
                   render={({ field }) => (
                     <TextField
+                      sx={{ border: "1px solid grey" }}
                       variant="outlined"
                       fullWidth
                       id="password"
-                      label="Contraseña"
+                      label="Password"
                       inputProps={{ type: "password" }}
                       error={Boolean(errors.password)}
                       helperText={
@@ -144,11 +189,17 @@ export default function LoginScreen() {
                     },
                   }}
                 >
-                  Iniciar Sesion
+                  LOG IN
                 </Button>
               </ListItem>
-              <ListItem>
-                ¿Todavia no tienes una cuenta?
+              <ListItem
+                sx={{
+                  alignItems: "center",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                Don't have an account?
                 <NextLink
                   href={`/register?redirect=${redirect || "/"}`}
                   passHref
@@ -157,13 +208,14 @@ export default function LoginScreen() {
                     sx={{
                       paddingLeft: "10px",
                       color: "black",
+                      fontWeight: "bold",
                       "&:hover": {
                         color: "black",
                         textDecoration: "underline",
                       },
                     }}
                   >
-                    Registrate
+                    Create one
                   </Link>
                 </NextLink>
               </ListItem>
@@ -171,6 +223,6 @@ export default function LoginScreen() {
           </Form>
         </Box>
       </Container>
-    </Layout>
+    </LayoutProductos>
   );
 }
