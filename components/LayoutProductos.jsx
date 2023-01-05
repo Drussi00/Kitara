@@ -162,10 +162,7 @@ export default function LayoutProductos({ title, description, children }) {
   const queryChangeHandler = (e) => {
     setQuery(e.target.value);
   };
-  const submitHandler = (e) => {
-    e.preventDefault();
-    router.push(`/search?query=${query}&category=Shop%20All`);
-  };
+
 
 
   return (
