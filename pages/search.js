@@ -25,6 +25,8 @@ import client from "../utils/client";
 import { urlForThumbnail } from "../utils/image";
 import { Store } from "../utils/Store";
 import FavoritosCard from "../components/FavoritosCard";
+import LayoutProductos from "../components/LayoutProductos";
+import { CardsKitara } from "../components/cardsKitara";
 export default function SearchScreen() {
   const isDesktop = useMediaQuery("(min-width:600px)");
   const [pageSize, setpageSize] = useState(0);
@@ -35,12 +37,7 @@ export default function SearchScreen() {
 
   const router = useRouter();
   const {
-    category = "Shop All",
-    colecion = "Shop All",
-    query = "Shop All",
-    price = "Shop All",
-    rating = "Shop All",
-    sort = "default",
+    value = ""
   } = router.query;
   const [state, setState] = useState({
     categories: [],
@@ -52,67 +49,22 @@ export default function SearchScreen() {
   });
   const [title, settitle] = useState("shop all");
 
-  const { loading, products, error, productsView, productsLengt } = state;
-  const [categories, setCategories] = useState([]);
+  const [productos, setProductos] = useState([]);
   const [pageU, setpage] = useState(1);
   useEffect(() => {
-    settitle(category);
-    const fetchCategories = async () => {
+    settitle(value);
+    const fetchProducts = async () => {
       try {
-        const { data } = await axios.get(`/api/products/categories`);
-        setCategories(data);
+        const products = await client.fetch(`*[ _type == "product" && name match $query || description match $query]`,
+        {query: value + "*"});
+        console.log(products);
+        setProductos(products);
       } catch (err) {
         console.log(err.message);
       }
     };
-    fetchCategories();
-
-    const fetchData = async () => {
-      try {
-        let gQuery = '*[_type == "product"';
-        if (category !== "Shop All") {
-          gQuery += ` && category match "${category}" `;
-        }
-        if (colecion !== "Shop All") {
-          gQuery += ` && colecion match "${colecion}" `;
-        }
-        if (query !== "Shop All") {
-          gQuery += ` && name match "${query}" `;
-        }
-
-        if (price !== "Shop All") {
-          const minPrice = Number(price.split("-")[0]);
-          const maxPrice = Number(price.split("-")[1]);
-          gQuery += ` && price >= ${minPrice} && price <= ${maxPrice}`;
-        }
-        if (rating !== "Shop All") {
-          gQuery += ` && rating >= ${Number(rating)} `;
-        }
-        let order = "";
-        if (sort !== "default") {
-          if (sort === "lowest") order = "| order(price asc)";
-          if (sort === "highest") order = "| order(price desc)";
-          if (sort === "toprated") order = "| order(rating desc)";
-        }
-
-        gQuery += `] ${order}`;
-        setState({ loading: true });
-
-        const fetchProducts = await client.fetch(gQuery);
-
-        setState({
-          products: fetchProducts,
-          loading: false,
-          productsView: fetchProducts.slice(0, pageSize),
-          productsLengt: fetchProducts.length,
-        });
-        setpage(1);
-      } catch (err) {
-        setState({ error: err.message, loading: false });
-      }
-    };
-    fetchData();
-  }, [category, price, query, rating, sort, colecion, pageSize]);
+    fetchProducts();
+  }, [value]);
 
   const filterSearch = ({
     category,
@@ -181,8 +133,6 @@ export default function SearchScreen() {
     setpage(page);
     const from = (page - 1) * pageSize;
     const to = (page - 1) * pageSize + pageSize;
-    console.log(from, to);
-    console.log(products);
     setState({
       productsView: products.slice(from, to),
       loading: false,
@@ -192,174 +142,15 @@ export default function SearchScreen() {
   };
 
   return (
-    <Layout title="search">
-      <Box display="flex" sx={classes.productosIndex}>
-        <Typography
-          sx={{
-            fontWeight: "bold",
-            fontFamily: " helvetica, sans-serif",
-            fontSize: "0.8rem",
-          }}
-        >
-          Envio gratis a todo el pais por compras superiores a $200.000
-        </Typography>
-      </Box>
-      <Container sx={{ paddingTop: "10px" }}>
-        <Grid sx={classes.section} container spacing={0}>
-          {" "}
-          <Grid item md={12}>
-            <Grid
-              container
-              justifyContent="space-between"
-              alignItems="center"
-              sx={{ justifyContent: "center" }}
-            >
-              <ButtonGroup
-                variant="outlined"
-                aria-label="outlined button group"
-                sx={{
-                  border: "1.5px solid black",
-                  borderRadius: "0",
-                }}
-              >
-                <Select
-                  fullWidth
-                  value="default"
-                  onChange={categoryHandler}
-                  sx={{
-                    width: "120px",
-                    height: "45px",
-                    borderRight: "1px solid black",
-                    borderColor: "none",
-                    borderRadius: "0 ",
-                    fontWeight: "bold",
-                    fontFamily: " helvetica, sans-serif",
-                  }}
-                  inputProps={{ "aria-label": "Without label" }}
-                  className="borrarFieldet"
-                >
-                  <MenuItem sx={{ display: "none" }} value="default">
-                    Filtrar
-                  </MenuItem>
-                  {categories.map((category) => (
-                    <MenuItem
-                      key={category}
-                      value={category}
-                      onClick={() =>
-                        router.push(`/search?category=${category}`)
-                      }
-                    >
-                      {category}
-                    </MenuItem>
-                  ))}
-                </Select>
-                <Button
-                  sx={{
-                    width: isDesktop ? "800px" : "150px",
-                    border: "none",
-                    fontWeight: "bold",
-                    fontFamily: " helvetica, sans-serif",
-                    "&:hover": {
-                      border: "none",
-                      backgroundColor: "transparent",
-                    },
-                  }}
-                >
-                  {title}
-                </Button>
+    <LayoutProductos title={`categorias - orderId`}>
+        <h1 className="text-center" style={{marginTop:"120px"}}>Se encontraron {productos.length} Resultados de {value} </h1>
+        {productos.length === 0?<h2 className="text-center" style={{margin:"200px auto"}}>no se encontro ningun resultado</h2>:null}
 
-                <Select
-                  value="default"
-                  onChange={sortHandler}
-                  sx={{
-                    width: "100",
-                    height: "45px",
-                    border: "none",
-                    borderLeft: "1px solid black",
-                    fontWeight: "bold",
-                    fontFamily: " helvetica, sans-serif",
-                    borderRadius: "0 ",
-                  }}
-                  inputProps={{ "aria-label": "Without label" }}
-                  className="borrarFieldet"
-                >
-                  <MenuItem value="default">Ordenar</MenuItem>
-                  <MenuItem value="lowest">Precio: Menor a Mayor</MenuItem>
-                  <MenuItem value="highest">Precio: Mayor a Menor</MenuItem>
-                </Select>
-              </ButtonGroup>
-            </Grid>
+        <div style={{maxWidth:"1280px",display:"flex",flexWrap:"wrap",margin:"auto",justifyContent:"space-between",width:"90%"}}>
+        {productos.map((product,i)=><CardsKitara iters={i+1} key={i} details={product} noModificable={false}/>)}
 
-            <Grid sx={classes.section} container spacing={3}>
-              {loading ? (
-                <CircularProgress />
-              ) : error ? (
-                <Alert>{error}</Alert>
-              ) : (
-                <Grid
-                  container
-                  spacing={6}
-                  sx={{
-                    paddingTop: isDesktop ? "40px" : "0px",
-                    margin: isDesktop ? 0 : "15px",
-                  }}
-                >
-                  {productsView.length !== 0 ? (
-                    productsView.map((product) => (
-                      <Grid item md={3} sm={12} key={product.name}>
-                        <FavoritosCard
-                          product={product}
-                          addToCartHandler={addToCartHandler}
-                        />
-                      </Grid>
-                    ))
-                  ) : (
-                    <NextLink
-                      sx={{
-                        textDecoration: "none",
-                        paddingLeft: "420px",
-                      }}
-                      href="/search?category=Shop+All"
-                      passHref
-                    >
-                      <Link
-                        sx={{
-                          textDecoration: "none",
-                        }}
-                      >
-                        <Typography
-                          sx={{
-                            textDecoration: "none",
-                            paddingLeft: isDesktop ? "420px" : "10px",
-                            color: "black",
-                            "&:hover": { color: "black" },
-                          }}
-                        >
-                          No hay resultados de tu busqueda, sigue buscando
-                        </Typography>
-                      </Link>
-                    </NextLink>
-                  )}
-                </Grid>
-              )}
-              <Box
-                justifyContent={"center"}
-                alignItems={"center"}
-                display="flex"
-                sx={{ margin: "20px 0px" }}
-              >
-                <Pagination
-                  shape="rounded"
-                  variant="outlined"
-                  page={pageU}
-                  count={Math.ceil(productsLengt / pageSize)}
-                  onChange={handlePageChange}
-                />
-              </Box>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Container>
-    </Layout>
+          
+        </div>
+      </LayoutProductos>
   );
 }

@@ -32,6 +32,10 @@
 
 }
 
+.slick-list{
+    height: auto !important;
+}
+
 .card-kitara{
     min-width: 248px;
     margin: auto;
@@ -45,18 +49,26 @@
         display: none;
     }
 
-    
+    .card-kitara-container-img{
+        display: flex;
+    }
 
 
     &:hover{
         cursor: pointer;
         .card-kitara-container-img{
             position: relative;
+            display: flex;
             .img-1{
                 display: none;
             }
             .img-2{
                 display: block;
+
+                &.search{
+                    width: 100%;
+                    max-height: max-content;
+                }
                 
             }
 
@@ -76,13 +88,21 @@
 
     }
     .card-kitara-img{
-        width: 100%;
+        max-height: 318px;
+        margin: auto;
         position: relative;
 
+        &.search{
+            max-height: max-content;
+            width: 100%;
+        }
+
     }
+ 
     .card-kitara-title{
         text-align: center;
         margin: 5px 0;
+        text-transform: capitalize;
 
     }
     .card-kitara-parrafo{

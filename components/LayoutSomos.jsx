@@ -117,25 +117,12 @@ export default function LayoutSomos({ title, description, children }) {
     </Box>
   );
 
-  const [moneda, setmoneda] = useState("default");
   const router = useRouter();
   const { state, dispatch } = useContext(Store);
-  const [location, setLocation] = useState(false);
   const {
     cart,
     userInfo,
-    currency: { curre },
   } = state;
-  useEffect(() => {
-    const metod = () => {
-      setLocation(
-        window.location.pathname.includes("/order/MercadoPago") ||
-          window.location.pathname.includes("/order/PayPal") ||
-          window.location.pathname.includes("/placeorder")
-      );
-    };
-    metod();
-  }, []);
 
   const theme = createTheme({
     components: {
@@ -167,14 +154,7 @@ export default function LayoutSomos({ title, description, children }) {
     },
   });
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const loginMenuCloseHandler = (e) => {
-    setAnchorEl(null);
-    router.push(e);
-  };
-  const loginClickHandler = (e) => {
-    setAnchorEl(e.currentTarget);
-  };
+
   const logoutClickHandler = () => {
     setAnchorEl(null);
     dispatch({ type: "USER_LOGOUT" });
@@ -185,63 +165,13 @@ export default function LayoutSomos({ title, description, children }) {
     router.push("/");
   };
 
-  const [sidbarVisible, setSidebarVisible] = useState(false);
-  const sidebarOpenHandler = () => {
-    setSidebarVisible(true);
-  };
-  const sidebarCloseHandler = () => {
-    setSidebarVisible(false);
-  };
-
-  const { enqueueSnackbar } = useSnackbar();
-  const [categories, setCategories] = useState([]);
-  const [coleciones, setcoleciones] = useState([]);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const { data } = await axios.get(`/api/products/categories`);
-        setCategories(data);
-      } catch (err) {
-        enqueueSnackbar(getError(err), { variant: "error" });
-      }
-    };
-    fetchCategories();
-    const fetchColeciones = async () => {
-      try {
-        const { data } = await axios.get(`/api/products/coleciones`);
-        setcoleciones(data);
-      } catch (err) {
-        enqueueSnackbar(getError(err), { variant: "error" });
-      }
-    };
-    fetchColeciones();
-  }, [enqueueSnackbar]);
 
   const isDesktop = useMediaQuery("(min-width:600px)");
+
 
   const [query, setQuery] = useState("");
   const queryChangeHandler = (e) => {
     setQuery(e.target.value);
-  };
-  const submitHandler = (e) => {
-    e.preventDefault();
-    router.push(`/search?query=${query}&category=Shop%20All`);
-  };
-  const sortHandler = (e) => {
-    dispatch({ type: "SAVE_CURRENCY", payload: e.target.value });
-    jsCookie.set("curre", JSON.stringify(e.target.value));
-    setmoneda(e.target.value);
-  };
-  useEffect(() => {
-    curre === "default" ? setmoneda("default") : setmoneda("Usd");
-  }, [curre]);
-  const [personName, setPersonName] = useState([]);
-
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
   };
 
   return (
@@ -284,25 +214,29 @@ export default function LayoutSomos({ title, description, children }) {
                   id="standard-search"
                   label="BUSCAR"
                   variant="standard"
+                  name="search"
+                  onChange={queryChangeHandler}
+                  value={query}
+                  onKeyPress={(e) =>{
+                    if(e.key === 'Enter'){
+                      router.push(`/search?value=${query}`);
+                      setQuery("")
+                    }
+                  }}
                   style={{ paddingBottom: "23px" }}
                 />
-                <NextLink className="link" href={"/login"} passHref>
-                  <Link
-                    style={{
-                      alignSelf: "center",
-                      fontSize: "24px",
-                      marginLeft: "20px",
-                    }}
-                  >
-                    LOG IN
-                  </Link>
+               {!userInfo &&  <NextLink className="link" href={"/login"} passHref>
+                  <Link style={{ alignSelf: "center",fontSize:"24px",marginLeft:"20px" }}>LOG IN</Link>
                 </NextLink>
-                <IconButton edge="start">
+                }
+                <IconButton edge="start" onClick={()=>router.push(`/cart`)}>
                   <SlBag
                     fontSize="36px"
                     color="black"
-                    style={{ marginBottom: "5px", marginLeft: "20px" }}
+                    style={{ marginBottom: "5px" }}
+                    
                   />
+                  <p style={{position:"absolute",top:"22px",fontSize:"19px",color:"black"}}>{cart.cartItems.length}</p>
                 </IconButton>
               </Box>
             </Toolbar>

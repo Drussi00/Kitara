@@ -1,55 +1,36 @@
+import { useContext, useEffect, useState } from "react";
 import { createTheme } from "@mui/material/styles";
 import "bootstrap/dist/css/bootstrap.min.css";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import PersonIcon from "@mui/icons-material/Person";
-import Dropdown from "react-bootstrap/Dropdown";
-import CardGiftcardSharpIcon from "@mui/icons-material/CardGiftcardSharp";
 import { SlBag } from "react-icons/sl";
-import CloseIcon from "@mui/icons-material/Close";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import IconButton from "@mui/material/IconButton";
-import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import OutlinedInput from "@mui/material/OutlinedInput";
 import logo from "../utils/Images/logo.png";
 import {
   AppBar,
-  Badge,
   Box,
-  Button,
   Container,
   CssBaseline,
-  Divider,
-  Drawer,
-  InputBase,
   Link,
   List,
   ListItem,
   ListItemButton,
   ListItemText,
-  Menu,
-  MenuItem,
-  Select,
   TextField,
   ThemeProvider,
   Toolbar,
-  Typography,
   useMediaQuery,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
 
 import Head from "next/head";
 import NextLink from "next/link";
 import classes from "../utils/classes";
-import { useContext, useEffect, useState } from "react";
 import { Store } from "../utils/Store";
 import jsCookie from "js-cookie";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { useSnackbar } from "notistack";
 import { getError } from "../utils/error";
-import WhatsAppIcon from "@mui/icons-material/WhatsApp";
-import InstagramIcon from "@mui/icons-material/Instagram";
 import Image from "next/image";
 import { Footer } from "./Footer";
 
@@ -117,26 +98,13 @@ export default function LayoutProductos({ title, description, children }) {
     </Box>
   );
 
-  const [moneda, setmoneda] = useState("default");
   const router = useRouter();
   const { state, dispatch } = useContext(Store);
-  const [location, setLocation] = useState(false);
   const {
     cart,
     userInfo,
     currency: { curre },
   } = state;
-  useEffect(() => {
-    const metod = () => {
-      setLocation(
-        window.location.pathname.includes("/order/MercadoPago") ||
-          window.location.pathname.includes("/order/PayPal") ||
-          window.location.pathname.includes("/placeorder")
-      );
-    };
-    metod();
-  }, []);
-
   const theme = createTheme({
     components: {
       MuiLink: {
@@ -166,7 +134,6 @@ export default function LayoutProductos({ title, description, children }) {
       },
     },
   });
-
   const [anchorEl, setAnchorEl] = useState(null);
   const loginMenuCloseHandler = (e) => {
     setAnchorEl(null);
@@ -179,44 +146,15 @@ export default function LayoutProductos({ title, description, children }) {
     setAnchorEl(null);
     dispatch({ type: "USER_LOGOUT" });
     jsCookie.remove("userInfo");
-    jsCookie.remove("cartItems");
+    jsCookie.set("cartItems",JSON.stringify([]));
     jsCookie.remove("shippingAddress");
     jsCookie.remove("paymentMethod");
     router.push("/");
   };
 
-  const [sidbarVisible, setSidebarVisible] = useState(false);
-  const sidebarOpenHandler = () => {
-    setSidebarVisible(true);
-  };
-  const sidebarCloseHandler = () => {
-    setSidebarVisible(false);
-  };
+
 
   const { enqueueSnackbar } = useSnackbar();
-  const [categories, setCategories] = useState([]);
-  const [coleciones, setcoleciones] = useState([]);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const { data } = await axios.get(`/api/products/categories`);
-        setCategories(data);
-      } catch (err) {
-        enqueueSnackbar(getError(err), { variant: "error" });
-      }
-    };
-    fetchCategories();
-    const fetchColeciones = async () => {
-      try {
-        const { data } = await axios.get(`/api/products/coleciones`);
-        setcoleciones(data);
-      } catch (err) {
-        enqueueSnackbar(getError(err), { variant: "error" });
-      }
-    };
-    fetchColeciones();
-  }, [enqueueSnackbar]);
 
   const isDesktop = useMediaQuery("(min-width:600px)");
 
@@ -224,25 +162,8 @@ export default function LayoutProductos({ title, description, children }) {
   const queryChangeHandler = (e) => {
     setQuery(e.target.value);
   };
-  const submitHandler = (e) => {
-    e.preventDefault();
-    router.push(`/search?query=${query}&category=Shop%20All`);
-  };
-  const sortHandler = (e) => {
-    dispatch({ type: "SAVE_CURRENCY", payload: e.target.value });
-    jsCookie.set("curre", JSON.stringify(e.target.value));
-    setmoneda(e.target.value);
-  };
-  useEffect(() => {
-    curre === "default" ? setmoneda("default") : setmoneda("Usd");
-  }, [curre]);
-  const [personName, setPersonName] = useState([]);
 
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-  };
+
 
   return (
     <>
@@ -290,17 +211,29 @@ export default function LayoutProductos({ title, description, children }) {
                   id="standard-search"
                   label="BUSCAR"
                   variant="standard"
+                  name="search"
+                  onChange={queryChangeHandler}
+                  value={query}
+                  onKeyPress={(e) =>{
+                    if(e.key === 'Enter'){
+                      router.push(`/search?value=${query}`);
+                      setQuery("")
+                    }
+                  }}
                   style={{ paddingBottom: "23px" }}
                 />
-                <NextLink className="link" href={"/login"} passHref>
+               {!userInfo &&  <NextLink className="link" href={"/login"} passHref>
                   <Link style={{ alignSelf: "center",fontSize:"24px",marginLeft:"20px" }}>LOG IN</Link>
                 </NextLink>
-                <IconButton edge="start">
+                }
+                <IconButton edge="start" onClick={()=>router.push(`/cart`)}>
                   <SlBag
                     fontSize="36px"
                     color="black"
                     style={{ marginBottom: "5px" }}
+                    
                   />
+                  <p style={{position:"absolute",top:"22px",fontSize:"19px",color:"black"}}>{cart.cartItems.length}</p>
                 </IconButton>
               </Box>
             </Toolbar>

@@ -40,7 +40,7 @@ function CartScreen() {
       currency: { curre },
     }
   } = useContext(Store);
-
+console.log(cartItems)
   
   const [Scroll, setScroll] = useState(false)
   const isDesktop = useMediaQuery("(min-width:600px)");
