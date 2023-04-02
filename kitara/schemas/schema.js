@@ -11,6 +11,10 @@ import paymentResult from "./paymentResult";
 import shippingAddress from "./shippingAddress";
 import images from "./images";
 import influencer from "./influencer";
+import capotas from "./capota";
+import mangas from "./mangas";
+import chaleco from "./chaleco";
+import extensiones from "./extensiones";
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -28,5 +32,9 @@ export default createSchema({
     shippingAddress,
     images,
     influencer,
+    capotas,
+    mangas,
+    chaleco,
+    extensiones
   ]),
 });
