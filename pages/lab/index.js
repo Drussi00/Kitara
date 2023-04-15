@@ -7,10 +7,6 @@ import {
   List,
   ListItem,
   Typography,
-  InputLabel,
-  MenuItem,
-  FormControl,
-  Select,
   Divider,
   Container,
   useMediaQuery,
@@ -22,9 +18,8 @@ import { useContext, useEffect, useState } from "react";
 import { useSnackbar } from "notistack";
 import classes from "../../utils/classes";
 import client from "../../utils/client";
-import { urlFor, urlForThumbnail } from "../../utils/image";
+import { urlFor } from "../../utils/image";
 import { Store } from "../../utils/Store";
-import axios from "axios";
 import { useRouter } from "next/router";
 import LayoutProductos from "../../components/LayoutProductos";
 import { RxBookmark } from "react-icons/rx";
@@ -104,40 +99,6 @@ export default function ProductScreen() {
   const [manga, setManga] = useState("");
   const [quantity, setquantity] = useState(0);
 
-  const addQuantity = async () => {
-    if (size !== "") {
-      if (size === "S" && quantity < product.s) {
-        setquantity(quantity + 1);
-        console.log(quantity);
-      } else if (size === "M" && quantity < product.m) {
-        setquantity(quantity + 1);
-        console.log(quantity);
-      } else if (size === "L" && quantity < product.l) {
-        setquantity(quantity + 1);
-      } else {
-        enqueueSnackbar("Maxima cantidad alcanzada", { variant: "error" });
-      }
-    } else {
-      enqueueSnackbar("Selecione talla", { variant: "error" });
-    }
-  };
-  const decQuantity = async () => {
-    if (size !== "") {
-      if (size === "S" && quantity > 0) {
-        setquantity(quantity - 1);
-        console.log(quantity);
-      } else if (size === "M" && quantity > 0) {
-        setquantity(quantity - 1);
-        console.log(quantity);
-      } else if (size === "L" && quantity > 0) {
-        setquantity(quantity - 1);
-      } else {
-        enqueueSnackbar("La cantidad debe ser mayor a 0", { variant: "error" });
-      }
-    } else {
-      enqueueSnackbar("Selecione talla", { variant: "error" });
-    }
-  };
   const buyNowHandler = async () => {
     // const { data } = await axios.get(`/api/products/${product._id}`);
 
@@ -148,64 +109,24 @@ export default function ProductScreen() {
     }
 
     dispatch({
-      type: "CART_ADD_ITEM",
+      type: "ADD_LAB",
       payload: {
-        _key: product._id,
-        name: product.name,
-        S: product.s,
-        M: product.m,
-        L: product.l,
-        slug: product.slug.current,
-        price: product.price,
-        image: urlForThumbnail(product.image && product.image[0]),
-        quantity,
-        size,
+        labProduct
       },
     });
-    enqueueSnackbar(`${product.name} Agregada al Carrito`, {
+    enqueueSnackbar(`chaqueta Pedido en proceso`, {
       variant: "success",
     });
-    router.push("/cart");
+    router.push("/lab/shipping");
   };
-  const addToCartHandler = async () => {
-    const { data } = await axios.get(`/api/products/${product._id}`);
-    console.log(data);
-    if (quantity === 0) {
-      enqueueSnackbar("Seleciona talla", { variant: "error" });
 
-      return;
-    }
-
-    dispatch({
-      type: "CART_ADD_ITEM",
-      payload: {
-        _key: product._id,
-        name: product.name,
-        XS: product.xs,
-        XL: product.xl,
-        S: product.s,
-        M: product.m,
-        L: product.l,
-        slug: product.slug.current,
-        price: product.price,
-        image: urlForThumbnail(product.image && product.image[0]),
-        quantity,
-        size,
-      },
-    });
-    enqueueSnackbar(`${product.name} added to the cart`, {
-      variant: "success",
-    });
-    router.push("/");
-  };
-  const [index, setIndex] = useState(0);
   const isDesktop = useMediaQuery("(min-width:600px)");
   const [selectedXs, setselecteXs] = useState(false);
   const [selectedS, setselectedS] = useState(false);
   const [selectedM, setselectedM] = useState(false);
   const [selectedL, setselectedL] = useState(false);
   const [selectedXL, setselectedXL] = useState(false);
-  console.log(manga, product)
+  console.log(labProduct)
   return (
     <LayoutProductos>
       <Container sx={{ mt: 4 }}>
@@ -216,10 +137,10 @@ export default function ProductScreen() {
         ) : (
           <Box>
             <Grid container spacing={6}>
-              <Grid item md={4} xs={12} sx={{ marginTop: "70px" }}>
+              <Grid item md={4} xs={12} sx={{ marginTop:isDesktop? "70px":0 }}>
                 <Button
                   sx={{
-                    mt: 15,
+                    mt:isDesktop? 15: 10,
                     width: "100%",
                     backgroundColor: "black",
                     color: "white",
@@ -252,28 +173,43 @@ export default function ProductScreen() {
                   LA PRENDA
                 </Typography>
               </Grid>
-              <Grid item md={4} xs={12} sx={{ marginTop: "70px" }}>
+              <Grid item md={4} xs={12} sx={{ marginTop: isDesktop?"70px":0 }}>
                 <Box
                   display={"flex"}
                   sx={{
                     justifyContent: "center",
                     border: "1px solid black",
                     p: 2,
+                    position:"relative"
                   }}
                 >
                   <Image
                     className="big-image"
-                    src={urlFor(labProduct.chaleco.image)}
-                    key={labProduct.chaleco.image._key}
-                    alt={labProduct.chaleco.name}
+                    src={urlFor((labProduct.capota) ? labProduct.capota.image: labProduct.chaleco.image)}
+                    key={(labProduct.capota) ? labProduct.capota.image: labProduct.chaleco.image._key}
+                    alt={(labProduct.capota) ? labProduct.capota.name: labProduct.chaleco.name}
                     width={450}
                     height={700}
                   />
+                  {(labProduct.mangas?.manga_derecha)?<img
+                    className="position-absolute"
+                    src={urlFor((labProduct.mangas.manga_derecha) ? labProduct.mangas.manga_derecha.image: labProduct.chaleco.image)}
+                    alt={(labProduct.mangas.manga_derecha) ? labProduct.mangas.manga_derecha.name: labProduct.chaleco.name}
+                    style={{width:"100%",height:"100%",top:0,padding:"16px"}}
+                    
+                  />:null}
+                  {(labProduct.mangas?.manga_izquierda)?<img
+                    className="position-absolute"
+                    src={urlFor((labProduct.mangas.manga_izquierda) ? labProduct.mangas.manga_izquierda.image: labProduct.chaleco.image)}
+                    alt={(labProduct.mangas.manga_izquierda) ? labProduct.mangas.manga_izquierda.name: labProduct.chaleco.name}
+                    style={{width:"100%",height:"100%",top:0,padding:"16px"}}
+                    
+                  />:null}
                 </Box>
               </Grid>
-              <Grid item md={4} xs={12}>
+              <Grid item md={4} xs={12} sx={{ marginTop: isDesktop?"50px":0 }}>
                 <List>
-                  <ListItem className="nopadLeft" sx={{ marginTop: "50px" }}>
+                  <ListItem className="nopadLeft">
                     {clicked ? (
                       <RxBookmark
                         fontSize="2.5rem"
@@ -353,11 +289,58 @@ export default function ProductScreen() {
                                 (chale) => chale._id == chaleco._id
                               )[0].xl,
                             },
+                            capota:""
                           });
                         }}
                        ></Box>
                         ))}
                   </ListItem>
+
+                  {(product.capota.filter((cap)=>cap.chaleco._ref == labProduct.chaleco._id).length > 0)?<><ListItem sx={{ marginTop: "10px", padding: 0 }}>
+                    <Typography
+                      variant="h1"
+                      component="h1"
+                      sx={{ fontSize: "1.2rem" }}
+                    >
+                      Color Capucha
+                    </Typography>
+                  </ListItem>
+                  <ListItem sx={{ padding: 0 }}>
+                  {product.capota.filter((cap)=>cap.chaleco._ref == labProduct.chaleco._id).map((capota, key) => (
+                         <Box
+                         sx={{
+                           backgroundColor: capota.color,
+                           height: "20px",
+                           width: "20px",
+                           borderRadius: "50%",
+                           marginRight:"10px",
+                           cursor: "pointer"
+                         }}
+                         key={key}
+                         onClick={() => {
+                          setLabProduct({
+                            ...labProduct,
+                            capota: {
+                              color: product.capota.filter(
+                                (chale) => chale._id == capota._id
+                              )[0].color,
+                              _id: capota._id,
+                              image: product.capota.filter(
+                                (chale) => chale._id == capota._id
+                              )[0].image,
+                              name: product.capota.filter(
+                                (chale) => chale._id == capota._id
+                              )[0].name,
+                              price: product.capota.filter(
+                                (chale) => chale._id == capota._id
+                              )[0].price,
+
+                            },
+                          });
+                        }}
+                       ></Box>
+                        ))}
+                  </ListItem></>:null}
                   <ListItem
                     paddingBottom={"50px"}
                     sx={{padding: "16px 0" }}
@@ -366,6 +349,7 @@ export default function ProductScreen() {
                       sx={{
                         fontWeight: "bold",
                         fontFamily: " coolvetica, sans-serif",
+                        textTransform: "capitalize"
                       }}
                     >
                       Tipo de Manga: {manga}
@@ -378,7 +362,7 @@ export default function ProductScreen() {
                          size="small"
                          variant=""
                          onClick={() => setManga("mariposa")}
-                         style={selectedM ? classes.selected : classes.but}
+                         style={manga === "mariposa" ? classes.selected : classes.but}
                        >
                          MARIPOSA
                        </button>
@@ -388,7 +372,7 @@ export default function ProductScreen() {
                             size="small"
                             variant=""
                             onClick={() => setManga("iconic")}
-                            style={selectedM ? classes.selected : classes.but}
+                            style={manga === "iconic" ? classes.selected : classes.but}
                           >
                             ICONIC
                           </button>
@@ -418,6 +402,13 @@ export default function ProductScreen() {
                             cursor: "pointer"
                           }}
                           key={key}
+                          onClick={() =>setLabProduct({
+                            ...labProduct,
+                            mangas:{
+                              ...labProduct.mangas,
+                              manga_derecha:manga
+                            }
+                          })}
                         ></Box>
                       ))}
                   </ListItem>
@@ -444,6 +435,13 @@ export default function ProductScreen() {
                            cursor: "pointer"
                           }}
                           key={key}
+                          onClick={() =>setLabProduct({
+                            ...labProduct,
+                            mangas:{
+                              ...labProduct.mangas,
+                              manga_izquierda:manga
+                            }
+                          })}
                         ></Box>
                       ))}
                   </ListItem>
@@ -452,7 +450,7 @@ export default function ProductScreen() {
                       {" "}
                       $
                       {new Intl.NumberFormat().format(
-                        parseInt(labProduct.chaleco.price)
+                        parseInt(labProduct.chaleco.price)+parseInt(labProduct.mangas?.manga_derecha?labProduct.mangas.manga_derecha.price:0 )+parseInt(labProduct.mangas?.manga_izquierda?labProduct.mangas.manga_izquierda.price:0)+parseInt(labProduct.capota ? labProduct.capota.price:0)
                       ) + " COP"}
                     </Typography>
                   </ListItem>
@@ -601,16 +599,6 @@ export default function ProductScreen() {
                         GUIA DE TALLAS
                       </Link>
                     </NextLink>
-                  </ListItem>
-                  <ListItem>
-                    <Button
-                      sx={classes.blackline}
-                      onClick={addToCartHandler}
-                      fullWidth
-                      variant=""
-                    >
-                      Agregar al carrito
-                    </Button>
                   </ListItem>
                   <ListItem>
                     <Button

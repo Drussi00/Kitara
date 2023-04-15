@@ -1,4 +1,4 @@
-import { Box, Container, Typography } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import React from "react";
 import LayoutSomos from "../components/LayoutSomos";
 import Build from "../utils/Images/Build-Image1.png";
@@ -6,12 +6,14 @@ import Office from "../utils/Images/office.png";
 import DosChicas from "../utils/Images/dos-chicas.png";
 
 const QuienesSomos = () => {
+  const isDesktop = useMediaQuery("(min-width:700px)");
+  const isDesktopSomos = useMediaQuery("(min-width:600px)");
   return (
     <LayoutSomos>
-      <Box style={{ width: "40%", maxWidth: "100%" }}>
+      <Box style={{ width: isDesktop?"40%":"100%", maxWidth: "100%" }}>
         <h2
           style={{
-            marginTop: "180px",
+            marginTop: isDesktopSomos?"180px":"80px",
             fontSize: "30px",
             marginLeft: "5%",
             fontWeight: "bold",
@@ -36,7 +38,7 @@ const QuienesSomos = () => {
         </p>
       </Box>
       <Box className="d-flex flex-row-reverse">
-        <Box style={{ width: "40%", marginTop: "-145px", marginRight: "60px" }}>
+        <Box style={{ width: isDesktop?"40%":"90%", marginTop: isDesktop?"-145px":0, marginRight: isDesktop?"60px":"auto",marginLeft:"auto" }}>
           <h2
             style={{
               marginTop: "30px",
@@ -80,7 +82,7 @@ const QuienesSomos = () => {
         </Box>
       </Box>
       <Box className="d-flex flex-row">
-        <Box style={{ width: "40%", marginTop: "-145px", marginLeft: "5%" }}>
+        <Box style={{ width: isDesktop?"40%":"90%", marginTop: isDesktop?"-145px":0, marginLeft: isDesktop? "2%":"auto",marginRight:isDesktop?0:"auto" }}>
           <h2
             style={{
               marginTop: "30px",

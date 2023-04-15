@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
+import NextLink from "next/link";
 
 export const Footer = () => {
   return (
@@ -29,13 +30,14 @@ export const Footer = () => {
           <Typography component="h4" className="text-mobile-center">
             @KITARASTUDIO_
           </Typography>
-          <Typography
-            component="a"
-            marginTop={2}
-            className="link-Style-none text-mobile-center"
-          >
-            Contacto
-          </Typography>
+            <Typography
+              component="a"
+              marginTop={2}
+              className="link-Style-none text-mobile-center"
+            >
+              Contacto
+            </Typography>
+          <NextLink  href={"/quienes-somos"} passHref>
           <Typography
             component="a"
             marginTop={2}
@@ -43,6 +45,7 @@ export const Footer = () => {
           >
             About
           </Typography>
+          </NextLink>
         </Box>
         <Box
           display="flex"

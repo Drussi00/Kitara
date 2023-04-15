@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { createTheme } from "@mui/material/styles";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { SlBag } from "react-icons/sl";
@@ -26,16 +26,13 @@ import Head from "next/head";
 import NextLink from "next/link";
 import classes from "../utils/classes";
 import { Store } from "../utils/Store";
-import jsCookie from "js-cookie";
 import { useRouter } from "next/router";
-import axios from "axios";
-import { useSnackbar } from "notistack";
-import { getError } from "../utils/error";
 import Image from "next/image";
 import { Footer } from "./Footer";
 
 export default function LayoutProductos({ title, description, children }) {
   const [drawer, setDrawer] = useState(false);
+  const isDesktop = useMediaQuery("(min-width:600px)");
   const list = () => (
     <Box
       sx={{ width: 250 }}
@@ -52,42 +49,66 @@ export default function LayoutProductos({ title, description, children }) {
       >
         <MenuIcon />
       </IconButton>
+      {isDesktop?null:<NextLink href="/" passHref>
+        <Image
+          src={logo.src}
+          width="250px"
+          height="60px"
+          sx={{
+            display: "flex",
+          }}
+        />
+      </NextLink>}
       <List>
         {[
-          { name: "ALL WOMAN", url: "" },
-          { name: "NEW ARRIVALS", url: "" },
-          { name: "CHAQUETA METROPOLITANA ICONIC", url: "" },
-          { name: "CHAQUETA CASUAL", url: "" },
-          { name: "CHAQUETA DISTRICT", url: "" },
-          { name: "HOODIES", url: "" },
-          { name: "T-SHIRTS", url: "" },
-          { name: "COCTEL", url: "" },
-        ].map((text, index) => (
-          <ListItem key={text.name} disablePadding>
+          {names:"NEW ARRIVALS", link: "new-arrivals" },
+          {names:"COCTEL", link: "coctel" },
+          {names:"ALL WOMAN",link:"woman"},
+          {names:"CHAQUETA METROPOLITANA ICONIC",link:"metropolitana"},
+          {names:"CHAQUETA CASUAL",link:"casual"},
+          {names:"CHAQUETA DISTRICT",link:"district"},
+          {names:"HOODIES",link:"hoodies"},
+          {names:"T-SHIRTS",link:"t-shirts"}
+        ].map((text) => (
+          <NextLink
+          key={text.names}
+          href={`/search?category=${text.link}`}
+          passHref
+        >
+          <ListItem key={text.names} disablePadding>
             <ListItemButton>
-              <ListItemText primary={text.name} className="fontWeight-400" />
+              <ListItemText primary={text.names} className="fontWeight-400" />
             </ListItemButton>
           </ListItem>
+        </NextLink>
+
+
         ))}
       </List>
       <List sx={{ marginTop: "15px" }}>
         {[
-          { name: "THE LAB", url: "" },
-          { name: "THE BRAND", url: "" },
-          { name: "2ND CHANCE", url: "" },
-        ].map((text, index) => (
+          { name: "THE LAB", link: "lab" },
+          { name: "THE BRAND", link: "quienes-somos" },
+          { name: "2ND CHANCE", link: "" },
+        ].map((text) => (
+          <NextLink
+          key={text.name}
+          href={`/${text.link}`}
+          passHref
+        >
           <ListItem key={text.name} disablePadding>
             <ListItemButton>
               <ListItemText primary={text.name} className="fontWeight-400" />
             </ListItemButton>
           </ListItem>
+          </NextLink>
         ))}
       </List>
       <List sx={{ marginTop: "15px" }}>
         {[
           { name: "+INFO", url: "" },
           { name: "CONTACTANOS", url: "" },
-        ].map((text, index) => (
+        ].map((text) => (
           <ListItem key={text.name} disablePadding>
             <ListItemButton>
               <ListItemText primary={text.name} className="fontWeight-400" />
@@ -99,12 +120,8 @@ export default function LayoutProductos({ title, description, children }) {
   );
 
   const router = useRouter();
-  const { state, dispatch } = useContext(Store);
-  const {
-    cart,
-    userInfo,
-    currency: { curre },
-  } = state;
+  const { state } = useContext(Store);
+  const { cart, userInfo } = state;
   const theme = createTheme({
     components: {
       MuiLink: {
@@ -134,36 +151,11 @@ export default function LayoutProductos({ title, description, children }) {
       },
     },
   });
-  const [anchorEl, setAnchorEl] = useState(null);
-  const loginMenuCloseHandler = (e) => {
-    setAnchorEl(null);
-    router.push(e);
-  };
-  const loginClickHandler = (e) => {
-    setAnchorEl(e.currentTarget);
-  };
-  const logoutClickHandler = () => {
-    setAnchorEl(null);
-    dispatch({ type: "USER_LOGOUT" });
-    jsCookie.remove("userInfo");
-    jsCookie.set("cartItems",JSON.stringify([]));
-    jsCookie.remove("shippingAddress");
-    jsCookie.remove("paymentMethod");
-    router.push("/");
-  };
-
-
-
-  const { enqueueSnackbar } = useSnackbar();
-
-  const isDesktop = useMediaQuery("(min-width:600px)");
 
   const [query, setQuery] = useState("");
   const queryChangeHandler = (e) => {
     setQuery(e.target.value);
   };
-
-
 
   return (
     <>
@@ -194,16 +186,18 @@ export default function LayoutProductos({ title, description, children }) {
                 >
                   <MenuIcon />
                 </IconButton>
-                <NextLink href="/" passHref>
-                  <Image
-                    src={logo.src}
-                    width="250px"
-                    height="60px"
-                    sx={{
-                      display: "flex",
-                    }}
-                  />
-                </NextLink>
+                {isDesktop ? (
+                  <NextLink href="/" passHref>
+                    <Image
+                      src={logo.src}
+                      width="250px"
+                      height="60px"
+                      sx={{
+                        display: "flex",
+                      }}
+                    />
+                  </NextLink>
+                ) : null}
               </Box>
 
               <Box display="flex" gap="1rem">
@@ -214,26 +208,43 @@ export default function LayoutProductos({ title, description, children }) {
                   name="search"
                   onChange={queryChangeHandler}
                   value={query}
-                  onKeyPress={(e) =>{
-                    if(e.key === 'Enter'){
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
                       router.push(`/search?value=${query}`);
-                      setQuery("")
+                      setQuery("");
                     }
                   }}
                   style={{ paddingBottom: "23px" }}
                 />
-               {!userInfo &&  <NextLink className="link" href={"/login"} passHref>
-                  <Link style={{ alignSelf: "center",fontSize:"24px",marginLeft:"20px" }}>LOG IN</Link>
-                </NextLink>
-                }
-                <IconButton edge="start" onClick={()=>router.push(`/cart`)}>
+                {!userInfo && (
+                  <NextLink className="link" href={"/login"} passHref>
+                    <Link
+                      style={{
+                        alignSelf: "center",
+                        fontSize: "24px",
+                        marginLeft: "20px",
+                      }}
+                    >
+                      LOG IN
+                    </Link>
+                  </NextLink>
+                )}
+                <IconButton edge="start" onClick={() => router.push(`/cart`)}>
                   <SlBag
                     fontSize="36px"
                     color="black"
                     style={{ marginBottom: "5px" }}
-                    
                   />
-                  <p style={{position:"absolute",top:"22px",fontSize:"19px",color:"black"}}>{cart.cartItems.length}</p>
+                  <p
+                    style={{
+                      position: "absolute",
+                      top: "22px",
+                      fontSize: "19px",
+                      color: "black",
+                    }}
+                  >
+                    {cart.cartItems.length}
+                  </p>
                 </IconButton>
               </Box>
             </Toolbar>

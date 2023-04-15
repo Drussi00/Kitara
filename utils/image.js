@@ -5,7 +5,6 @@ function urlForThumbnail(source) {
   return ImageUrlBuilder(client).image(source).width(300).url();
 }
 function urlFor(source) {
-  console.log(source);
   return ImageUrlBuilder(client).image(source).width(580).url();
 }
 export { urlForThumbnail, urlFor };

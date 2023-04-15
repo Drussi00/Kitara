@@ -167,7 +167,7 @@ export default function ProductScreen(props) {
         ) : (
           <Box>
             <Grid container spacing={6}>
-              <Grid item md={4} xs={12} sx={{ marginTop: "70px" }}>
+              <Grid item md={4} xs={12} sx={{ marginTop: isDesktop?"70px":0 }}>
                 <Button
                   sx={{
                     mt: 15,
@@ -203,7 +203,7 @@ export default function ProductScreen(props) {
                   LA PRENDA
                 </Typography>
               </Grid>
-              <Grid item md={4} xs={12} sx={{ marginTop: "70px" }}>
+              <Grid item md={4} xs={12} sx={{ marginTop: isDesktop?"70px":0 }}>
                 <Box
                   display={"flex"}
                   sx={{
@@ -222,9 +222,9 @@ export default function ProductScreen(props) {
                   />
                 </Box>
               </Grid>
-              <Grid item md={4} xs={12}>
+              <Grid item md={4} xs={12} sx={{ marginTop: isDesktop?"50px":0 }}>
                 <List>
-                  <ListItem className="nopadLeft" sx={{ marginTop: "50px" }}>
+                  <ListItem className="nopadLeft">
                     {clicked ? (
                       <RxBookmark
                         fontSize="2.5rem"
@@ -241,7 +241,7 @@ export default function ProductScreen(props) {
                       />
                     )}
                   </ListItem>
-                  <ListItem sx={{ marginTop: "100px" }}>
+                  <ListItem sx={{ marginTop: isDesktop?"100px":0 }}>
                     <Typography
                       variant="h1"
                       component="h1"

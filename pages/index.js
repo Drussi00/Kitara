@@ -5,12 +5,6 @@ import Carousel from "../components/Carousel";
 import { CarrouselKitaraCards } from "../components/CarrouselKitaraCards";
 import Pagina3 from "../components/Pagina3";
 import client from "../utils/client";
-// import Favoritos from "../components/Favoritos";
-// import ProductosIndex from "../components/ProductosIndex";
-
-// import Categories from "../components/Categories";
-// import Influencer from "../components/Influencer";
-// import Newsletter from "../components/Newsletter";
 
 export default function Home() {
   const [state, setState] = useState({
@@ -62,7 +56,7 @@ export default function Home() {
 
 
           <Pagina3 />
-          <Typography component="h3" textAlign="center" className="my-5" fontSize={40}>
+          <Typography component="h3" textAlign="center" sx={{margin:"80px 0 40px"}} fontSize={40}>
           FORMAS DE USAR TU KITARA
           </Typography>
         <CarrouselKitaraCards products={state.products}/>

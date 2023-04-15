@@ -1,59 +1,39 @@
 import { createTheme } from "@mui/material/styles";
 import "bootstrap/dist/css/bootstrap.min.css";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import PersonIcon from "@mui/icons-material/Person";
-import Dropdown from "react-bootstrap/Dropdown";
-import CardGiftcardSharpIcon from "@mui/icons-material/CardGiftcardSharp";
 import { SlBag } from "react-icons/sl";
-import CloseIcon from "@mui/icons-material/Close";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import IconButton from "@mui/material/IconButton";
-import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import OutlinedInput from "@mui/material/OutlinedInput";
 import logo from "../utils/Images/icon-match.png";
+import logoMain from "../utils/Images/logo.png";
 import {
   AppBar,
-  Badge,
   Box,
-  Button,
   Container,
   CssBaseline,
-  Divider,
-  Drawer,
-  InputBase,
   Link,
   List,
   ListItem,
   ListItemButton,
   ListItemText,
-  Menu,
-  MenuItem,
-  Select,
   TextField,
   ThemeProvider,
   Toolbar,
-  Typography,
   useMediaQuery,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
 
 import Head from "next/head";
 import NextLink from "next/link";
 import classes from "../utils/classes";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Store } from "../utils/Store";
-import jsCookie from "js-cookie";
 import { useRouter } from "next/router";
-import axios from "axios";
-import { useSnackbar } from "notistack";
-import { getError } from "../utils/error";
-import WhatsAppIcon from "@mui/icons-material/WhatsApp";
-import InstagramIcon from "@mui/icons-material/Instagram";
 import Image from "next/image";
 import { Footer } from "./Footer";
 
 export default function LayoutSomos({ title, description, children }) {
+
+  const isDesktop = useMediaQuery("(min-width:600px)");
   const [drawer, setDrawer] = useState(false);
   const list = () => (
     <Box
@@ -71,42 +51,66 @@ export default function LayoutSomos({ title, description, children }) {
       >
         <MenuIcon />
       </IconButton>
+      {isDesktop?null:<NextLink href="/" passHref>
+        <Image
+          src={logoMain.src}
+          width="250px"
+          height="60px"
+          sx={{
+            display: "flex",
+          }}
+        />
+      </NextLink>}
       <List>
         {[
-          { name: "ALL WOMAN", url: "" },
-          { name: "NEW ARRIVALS", url: "" },
-          { name: "CHAQUETA METROPOLITANA ICONIC", url: "" },
-          { name: "CHAQUETA CASUAL", url: "" },
-          { name: "CHAQUETA DISTRICT", url: "" },
-          { name: "HOODIES", url: "" },
-          { name: "T-SHIRTS", url: "" },
-          { name: "COCTEL", url: "" },
-        ].map((text, index) => (
-          <ListItem key={text.name} disablePadding>
+          {names:"NEW ARRIVALS", link: "new-arrivals" },
+          {names:"COCTEL", link: "coctel" },
+          {names:"ALL WOMAN",link:"woman"},
+          {names:"CHAQUETA METROPOLITANA ICONIC",link:"metropolitana"},
+          {names:"CHAQUETA CASUAL",link:"casual"},
+          {names:"CHAQUETA DISTRICT",link:"district"},
+          {names:"HOODIES",link:"hoodies"},
+          {names:"T-SHIRTS",link:"t-shirts"}
+        ].map((text) => (
+          <NextLink
+          key={text.names}
+          href={`/search?category=${text.link}`}
+          passHref
+        >
+          <ListItem key={text.names} disablePadding>
             <ListItemButton>
-              <ListItemText primary={text.name} className="fontWeight-400" />
+              <ListItemText primary={text.names} className="fontWeight-400" />
             </ListItemButton>
           </ListItem>
+        </NextLink>
+
+
         ))}
       </List>
       <List sx={{ marginTop: "15px" }}>
         {[
-          { name: "THE LAB", url: "" },
-          { name: "THE BRAND", url: "" },
-          { name: "2ND CHANCE", url: "" },
-        ].map((text, index) => (
+          { name: "THE LAB", link: "lab" },
+          { name: "THE BRAND", link: "quienes-somos" },
+          { name: "2ND CHANCE", link: "" },
+        ].map((text) => (
+          <NextLink
+          key={text.name}
+          href={`/${text.link}`}
+          passHref
+        >
           <ListItem key={text.name} disablePadding>
             <ListItemButton>
               <ListItemText primary={text.name} className="fontWeight-400" />
             </ListItemButton>
           </ListItem>
+          </NextLink>
         ))}
       </List>
       <List sx={{ marginTop: "15px" }}>
         {[
           { name: "+INFO", url: "" },
           { name: "CONTACTANOS", url: "" },
-        ].map((text, index) => (
+        ].map((text) => (
           <ListItem key={text.name} disablePadding>
             <ListItemButton>
               <ListItemText primary={text.name} className="fontWeight-400" />
@@ -118,7 +122,7 @@ export default function LayoutSomos({ title, description, children }) {
   );
 
   const router = useRouter();
-  const { state, dispatch } = useContext(Store);
+  const { state } = useContext(Store);
   const {
     cart,
     userInfo,
@@ -155,20 +159,6 @@ export default function LayoutSomos({ title, description, children }) {
   });
 
 
-  const logoutClickHandler = () => {
-    setAnchorEl(null);
-    dispatch({ type: "USER_LOGOUT" });
-    jsCookie.remove("userInfo");
-    jsCookie.remove("cartItems");
-    jsCookie.remove("shippingAddress");
-    jsCookie.remove("paymentMethod");
-    router.push("/");
-  };
-
-
-  const isDesktop = useMediaQuery("(min-width:600px)");
-
-
   const [query, setQuery] = useState("");
   const queryChangeHandler = (e) => {
     setQuery(e.target.value);
@@ -203,11 +193,12 @@ export default function LayoutSomos({ title, description, children }) {
               >
                 <MenuIcon />
               </IconButton>
-              <Box sx={{position:"relative",top:"40px"}}>
+              {isDesktop ? (
+              <Box sx={{position:"relative",top:isDesktop?"40px":0}}>
                 <NextLink href="/" passHref>
                   <Image src={logo.src} width="250px" height="80px" />
                 </NextLink>
-              </Box>
+              </Box>):null}
 
               <Box display="flex" gap="1rem">
                 <TextField

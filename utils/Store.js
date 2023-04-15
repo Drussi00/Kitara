@@ -4,6 +4,9 @@ import { createContext, useReducer } from "react";
 export const Store = createContext();
 
 const initialState = {
+  lab_product: Cookies.get("lab_product")
+  ? JSON.parse(Cookies.get("lab_product"))
+  : {},
   cart: {
     cartItems: Cookies.get("cartItems")
       ? JSON.parse(Cookies.get("cartItems"))
@@ -39,6 +42,12 @@ function reducer(state, action) {
         : [...state.cart.cartItems, newItem];
       Cookies.set("cartItems", JSON.stringify(cartItems));
       return { ...state, cart: { ...state.cart, cartItems } };
+    }
+
+    case "ADD_LAB": {
+      const productLab = action.payload.labProduct;
+      Cookies.set("lab_product", JSON.stringify(productLab));
+      return { ...state, lab_product: productLab  };
     }
 
     case "CART_AUMENTAR_ITEM": {
@@ -85,6 +94,11 @@ function reducer(state, action) {
       return {
         ...state,
         cart: { ...state.cart, cartItems: [], paymentMethod: [] },
+      };
+    case "LAB_CLEAR":
+      return {
+        ...state,
+        lab_product: { },
       };
 
     case "USER_LOGIN":

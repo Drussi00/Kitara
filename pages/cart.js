@@ -1,25 +1,8 @@
-import Layout from "../components/Layout";
 import {
   Box,
-  Button,
-  Card,
-  Container,
-  Grid,
-  Link,
-  List,
-  ListItem,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
   useMediaQuery,
 } from "@mui/material";
 import dynamic from "next/dynamic";
-import Image from "next/image";
-import NextLink from "next/link";
 import { BsChatLeft } from "react-icons/bs";
 import { useContext, useState } from "react";
 import { AiOutlineArrowUp,AiOutlineArrowDown } from "react-icons/ai";
@@ -37,45 +20,44 @@ function CartScreen() {
   const {
     state: {
       cart: { cartItems },
-      currency: { curre },
     }
   } = useContext(Store);
-console.log(cartItems)
   
-  const [Scroll, setScroll] = useState(false)
-  const isDesktop = useMediaQuery("(min-width:600px)");
+  const [Scroll, setScroll] = useState(false);
+  const isDesktop = useMediaQuery("(min-width:800px)");
   return (
     <LayoutProductos title="Shopping Cart">
       <Box
         style={{
           marginTop: "120px",
-          marginLeft: "80px",
+          marginLeft: isDesktop?"80px":0,
           display: "flex",
           justifyContent: "space-between",
-          marginBottom: "100px"
+          marginBottom: "100px",
+          flexDirection: isDesktop?"row":"column",
         }}
       >
-        <div>
+        <div style={{display:"flex",flexDirection:"column",alignItems:"center"}}>
           <h2
             style={{
               fontSize: "25px",
               letterSpacing: "2px",
-              marginBottom: "90px",
+              marginBottom: isDesktop?"40px":0,
             }}
           >
             CESTA (#)
           </h2>
           {cartItems.map((item) => (<CardsCarrito product={item}/>))}
         </div>
-        <div className="d-flex flex-column" style={{paddingTop:"120px",flex:1}}>
-          <Box className="d-flex flex-column carrito-position">
+        <div className="d-flex flex-column" style={{paddingTop:isDesktop?"120px":"70px",flex:1}}>
+          {isDesktop?<Box className="d-flex flex-column carrito-position">
             <a className="carrito-arrow bg-white" href="#header" onClick={()=>setScroll(false)}>
               <AiOutlineArrowUp fontSize={25} color={!Scroll?"grey":"black"} />
             </a>
             <a className="carrito-arrow bg-white" href="#footer" onClick={()=>setScroll(true)}>
               <AiOutlineArrowDown fontSize={25} color={Scroll?"grey":"black"}/>
             </a>
-          </Box>
+          </Box>:null}
           <Box className="d-flex carrito-tarjeta-chat ">
             <button className="carrito-tarjeta-chat-button bg-white">
               <BsChatLeft fontSize={25} style={{ marginRight: "13px" }} />
@@ -83,7 +65,7 @@ console.log(cartItems)
             </button>
           </Box>
 
-          <Box className="d-flex flex-row carrito-tarjeta-pago">
+          <Box className="d-flex flex-row carrito-tarjeta-pago flex-wrap">
             <p className="carrito-tarjeta-pago-parrafo">TOTAL</p>
             <div className="d-flex flex-column">
               <p className="carrito-tarjeta-pago-parrafo">{new Intl.NumberFormat().format(totalCost())} COP</p>
