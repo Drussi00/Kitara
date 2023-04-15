@@ -1,37 +1,28 @@
 import { createTheme } from "@mui/material/styles";
 import "bootstrap/dist/css/bootstrap.min.css";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import PersonIcon from "@mui/icons-material/Person";
 import Dropdown from "react-bootstrap/Dropdown";
-import CloseIcon from "@mui/icons-material/Close";
-import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import OutlinedInput from "@mui/material/OutlinedInput";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import logo from "../utils/Images/logo.png";
 import {
   AppBar,
-  Badge,
   Box,
-  Button,
+  Collapse,
   Container,
   CssBaseline,
-  Divider,
   Drawer,
   IconButton,
-  InputBase,
   Link,
   List,
   ListItem,
+  ListItemButton,
   ListItemText,
-  Menu,
-  MenuItem,
-  Select,
   ThemeProvider,
   Toolbar,
   Typography,
   useMediaQuery,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
 
 import Head from "next/head";
 import NextLink from "next/link";
@@ -43,8 +34,6 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { useSnackbar } from "notistack";
 import { getError } from "../utils/error";
-import WhatsAppIcon from "@mui/icons-material/WhatsApp";
-import InstagramIcon from "@mui/icons-material/Instagram";
 import Image from "next/image";
 import { Footer } from "./Footer";
 
@@ -55,8 +44,6 @@ export default function Layout({ title, description, children }) {
   const { state, dispatch } = useContext(Store);
   const [location, setLocation] = useState(false);
   const {
-    cart,
-    userInfo,
     currency: { curre },
   } = state;
   useEffect(() => {
@@ -101,6 +88,9 @@ export default function Layout({ title, description, children }) {
   });
 
   const [anchorEl, setAnchorEl] = useState(null);
+  const [collapse, setCollapse] = useState(false);
+  const [coctelList, setCoctel] = useState(false);
+  const [drawer, setDrawer] = useState(false);
   const loginMenuCloseHandler = (e) => {
     setAnchorEl(null);
     router.push(e);
@@ -151,7 +141,7 @@ export default function Layout({ title, description, children }) {
     fetchColeciones();
   }, [enqueueSnackbar]);
 
-  const isDesktop = useMediaQuery("(min-width:600px)");
+  const isDesktop = useMediaQuery("(min-width:800px)");
 
   const [query, setQuery] = useState("");
   const queryChangeHandler = (e) => {
@@ -178,14 +168,14 @@ export default function Layout({ title, description, children }) {
   };
 
   const names = [
-    "ALL WOMAN",
-    "CHAQUETA METROPOLITANA ICONIC",
-    "CHAQUETA CASUAL",
-    "CHAQUETA DISTRICT",
-    "HOODIES",
-    "T-SHIRTS",
+    {names:"ALL WOMAN",link:"woman"},
+    {names:"CHAQUETA METROPOLITANA ICONIC",link:"metropolitana"},
+    {names:"CHAQUETA CASUAL",link:"casual"},
+    {names:"CHAQUETA DISTRICT",link:"district"},
+    {names:"HOODIES",link:"hoodies"},
+    {names:"T-SHIRTS",link:"t-shirts"}
   ];
-  const coctel = ["CAMISAS", "VESTIDOS"];
+  const coctel = [{names:"CAMISAS",link:"camisas"}, {names:"VESTIDOS",link:"vestidos"}];
   return (
     <>
       <Head>
@@ -205,6 +195,7 @@ export default function Layout({ title, description, children }) {
                       color="black"
                       variant="h1"
                       component="h1"
+                      sx={{ display: isDesktop ? "" : "none" }}
                     >
                       HOME
                     </Typography>
@@ -217,12 +208,14 @@ export default function Layout({ title, description, children }) {
                       fontSize: "1.5rem",
                       color: "black",
                       "&:hover": { color: "black" },
+                      display: isDesktop ? "flex" : "none",
+                      alignItems:"center",
                     }}
                     variant=""
                     id="dropdown-basic"
                     className=""
                   >
-                    Shop
+                    SHOP
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu
@@ -230,8 +223,8 @@ export default function Layout({ title, description, children }) {
                   >
                     {names.map((category) => (
                       <NextLink
-                        key={category}
-                        href={`/search?category=${category}`}
+                        key={category.names}
+                        href={`/search?category=${category.link}`}
                         passHref
                         sx={{}}
                       >
@@ -243,7 +236,7 @@ export default function Layout({ title, description, children }) {
                             "&:hover": { color: "black" },
                           }}
                         >
-                          <ListItemText primary={category}></ListItemText>
+                          <ListItemText primary={category.names}></ListItemText>
                         </ListItem>
                       </NextLink>
                     ))}
@@ -259,10 +252,10 @@ export default function Layout({ title, description, children }) {
                       <Dropdown.Menu
                         style={{ backgroundColor: "white", border: "none" }}
                       >
-                        {coctel.map((colecion) => (
+                          {coctel.map((colecion) => (
                           <NextLink
-                            key={colecion}
-                            href={`/search?colecion=${colecion}&category=Shop+All`}
+                            key={colecion.names}
+                            href={`/search?category=${colecion.link}`}
                             passHref
                           >
                             <ListItem
@@ -273,7 +266,7 @@ export default function Layout({ title, description, children }) {
                               component="a"
                               onClick={sidebarCloseHandler}
                             >
-                              <ListItemText primary={colecion}></ListItemText>
+                              <ListItemText primary={colecion.names}></ListItemText>
                             </ListItem>
                           </NextLink>
                         ))}
@@ -283,21 +276,30 @@ export default function Layout({ title, description, children }) {
                 </Dropdown>
 
                 <NextLink className="link" href={"/lab"} passHref>
-                  <Link>
+                  <Link sx={{ display: isDesktop ? "" : "none" }}>
                     <Typography color="black" variant="h1" component="h1">
                       THE LAB
                     </Typography>
                   </Link>
                 </NextLink>
-                <NextLink className="link" href={"/brand"} passHref>
-                  <Link>
+                <NextLink className="link" href={"/quienes-somos"} passHref>
+                  <Link sx={{ display: isDesktop ? "" : "none" }}>
                     <Typography color="black" variant="h1" component="h1">
                       THE BRAND
                     </Typography>
                   </Link>
                 </NextLink>
               </Box>
-              <Box>
+              <IconButton
+                color="default"
+                aria-label="open drawer"
+                edge="start"
+                onClick={()=>setDrawer(!drawer)}
+                sx={{ mr: 2, position: "absolute",left:"30px",display: isDesktop ? "none" : "block" }}
+              >
+                <MenuIcon color="black" />
+              </IconButton>
+              <Box margin="auto">
                 {" "}
                 <NextLink href="/" passHref>
                   <Image
@@ -310,7 +312,7 @@ export default function Layout({ title, description, children }) {
                   />
                 </NextLink>
               </Box>
-              <Box display="flex" gap="1rem">
+              <Box gap="1rem" sx={{ display: isDesktop ? "flex" : "none" }}>
                 <NextLink className="link" href={"/brand"} passHref>
                   <Link>
                     <Typography color="black" variant="h1" component="h1">
@@ -335,12 +337,116 @@ export default function Layout({ title, description, children }) {
               </Box>
             </Toolbar>
           </AppBar>
-
+          <Drawer
+            sx={{minWidth:300,backgroundColor:"rgb(241, 236, 236)"}}
+            variant="persistent"
+            anchor="left"
+            open={drawer}
+          >
+             <IconButton
+                color="default"
+                aria-label="open drawer"
+                edge="start"
+                onClick={()=>setDrawer(!drawer)}
+                sx={{ mr: 2, position: "absolute",left:"30px",top:"15px" }}
+              >
+                <MenuIcon color="black" />
+              </IconButton>
+              <Box sx={{width:"300px",display:"flex",flexDirection:"column",marginTop:"50px"}}>
+              <List>
+                  <ListItem disablePadding>
+                    <ListItemButton>
+                      <ListItemText primary={"HOME"} />
+                    </ListItemButton>
+                  </ListItem>
+                  <ListItem disablePadding>
+                    <ListItemButton onClick={()=>setCollapse(!collapse)}>
+                      <ListItemText primary={"SHOP"} />
+                      {collapse ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+                    </ListItemButton>
+                  </ListItem>
+                  <Collapse component="li" in={collapse} timeout="auto" unmountOnExit >
+                    
+                    <List disablePadding>
+                    {names.map((category) => (
+                      <NextLink
+                        key={category.names}
+                        href={`/search?category=${category.link}`}
+                        passHref
+                        sx={{}}
+                      >
+                        <ListItem  sx={{paddingLeft:"30px"}}>
+                          <ListItemButton>
+                            <ListItemText primary={category.names} />
+                          </ListItemButton>
+                        </ListItem>
+                      </NextLink>
+                    ))}
+                    </List>
+                  </Collapse>
+                  <ListItem  disablePadding>
+                    <ListItemButton>
+                    <NextLink className="link" href={"/lab"} passHref>
+                      <ListItemText primary={"THE LAB"}  />
+                    </NextLink>
+                    </ListItemButton>
+                  </ListItem>
+                  <ListItem  disablePadding>
+                    <ListItemButton>
+                    <NextLink className="link" href={"/quienes-somos"} passHref>
+                      <ListItemText primary={"THE BRAND"} />
+                      </NextLink>
+                    </ListItemButton>
+                  </ListItem>
+                  <ListItem  disablePadding>
+                    <ListItemButton>
+                      <ListItemText primary={"2ND CHANCE"} />
+                    </ListItemButton>
+                  </ListItem>
+                  <ListItem  disablePadding>
+                    <ListItemButton>
+                      <ListItemText primary={"GUIA DE TALLAS"} />
+                    </ListItemButton>
+                  </ListItem>
+                  <ListItem disablePadding>
+                    <ListItemButton>
+                      <ListItemText primary={"LOGIN"} />
+                    </ListItemButton>
+                  </ListItem>
+                  <ListItem disablePadding>
+                    <ListItemButton onClick={()=>setCoctel(!coctelList)}>
+                      <ListItemText primary={"COCTEL"} />
+                      {coctelList ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+                    </ListItemButton>
+                  </ListItem>
+                  <Collapse component="li" in={coctelList} timeout="auto" unmountOnExit >
+                    <List disablePadding>
+                    {coctel.map((category) => (
+                      <NextLink
+                        key={category.names}
+                        href={`/search?category=${category.link}`}
+                        passHref
+                        sx={{}}
+                      >
+                        <ListItem  sx={{paddingLeft:"30px"}}>
+                          <ListItemButton>
+                            <ListItemText primary={category.names} />
+                          </ListItemButton>
+                        </ListItem>
+                      </NextLink>
+                    ))}
+                      </List>
+                  </Collapse>
+              </List>
+              </Box>
+              
+          </Drawer>
           <Container
             disableGutters={true}
             component="main"
             maxWidth="false"
             sx={classes.main}
+      
           >
             {children}
           </Container>

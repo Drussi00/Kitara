@@ -50,6 +50,20 @@ export default {
       name: "category",
       title: "Category",
       type: "string",
+      options: {
+        list: [
+          { title: "ALL WOMAN", value: "woman" },
+          { title: "CHAQUETA METROPOLITANA ICONIC", value: "metropolitana" },
+          { title: "CHAQUETA CASUAL", value: "casual" },
+          { title: "CHAQUETA DISTRICT", value: "district" },
+          { title: "HOODIES", value: "hoodies" },
+          { title: "T_SHIRTS", value: "t-shirts" },
+          { title: "CAMISAS", value: "camisas" },
+          { title: "VESTIDOS", value: "vestidos" },
+          { title: "COCTEL", value: "coctel" },
+          { title: "NEW ARRIVALS", value: "new-arrivals" },
+        ],
+      },
     },
     {
       name: "colecion",
